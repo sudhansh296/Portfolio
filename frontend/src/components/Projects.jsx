@@ -43,7 +43,7 @@ export default function Projects() {
                 onClick={() => setSelected(p)}>
                 <div style={styles.cardImgWrap}>
                   {p.image
-                    ? <img src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${p.image}`} alt={p.title} style={styles.img} />
+                    ? <img src={p.image} alt={p.title} style={styles.img} />
                     : <div style={styles.imgPlaceholder}><span style={{ fontSize: '2.5rem' }}>🖥️</span></div>
                   }
                   <div style={styles.cardOverlay}>
@@ -77,7 +77,7 @@ export default function Projects() {
           <div style={styles.modal} onClick={e => e.stopPropagation()}>
             <button onClick={() => setSelected(null)} style={styles.close}>✕</button>
             {selected.image
-              ? <img src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${selected.image}`} alt={selected.title} style={styles.modalImg} />
+              ? <img src={selected.image} alt={selected.title} style={styles.modalImg} />
               : <div style={{ ...styles.imgPlaceholder, height: '200px', borderRadius: '12px', marginBottom: '20px' }}><span style={{ fontSize: '3rem' }}>🖥️</span></div>
             }
             <span style={styles.category}>{selected.category}</span>

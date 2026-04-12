@@ -1,15 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const path = require('path');
 const Project = require('../models/Project');
 const authMiddleware = require('../middleware/auth');
+const { storage } = require('../cloudinary');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
-});
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB limit
+const upload = multer({ storage });
 
 // Public - anyone can view
 router.get('/', async (req, res) => {
@@ -29,7 +25,7 @@ router.post('/', authMiddleware, upload.single('image'), async (req, res) => {
       title, description,
       techStack: techStack ? techStack.split(',').map(t => t.trim()) : [],
       liveLink, githubLink, category,
-      image: req.file ? `/uploads/${req.file.filename}` : ''
+      image: req.file ? req.file.path : ''
     });
     await project.save();
     res.json(project);
@@ -42,7 +38,7 @@ router.put('/:id', authMiddleware, upload.single('image'), async (req, res) => {
   try {
     const { title, description, techStack, liveLink, githubLink, category } = req.body;
     const update = { title, description, techStack: techStack ? techStack.split(',').map(t => t.trim()) : [], liveLink, githubLink, category };
-    if (req.file) update.image = `/uploads/${req.file.filename}`;
+    if (req.file) update.image = req.file.path;
     const project = await Project.findByIdAndUpdate(req.params.id, update, { new: true });
     res.json(project);
   } catch (err) {
