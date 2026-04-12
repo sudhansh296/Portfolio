@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../api';
 
 export default function Admin() {
   const [auth, setAuth] = useState(!!localStorage.getItem('admin'));
@@ -12,7 +12,7 @@ export default function Admin() {
 
   const login = async () => {
     try {
-      const res = await axios.post('/api/auth/login', { password });
+      const res = await API.post('/api/auth/login', { password });
       if (res.data.success) {
         localStorage.setItem('admin', '1');
         localStorage.setItem('token', res.data.token);
@@ -25,7 +25,7 @@ export default function Admin() {
 
   const getAuthHeader = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
 
-  const fetchProjects = () => axios.get('/api/projects').then(r => setProjects(r.data));
+  const fetchProjects = () => API.get('/api/projects').then(r => setProjects(r.data));
 
   useEffect(() => { if (auth) fetchProjects(); }, [auth]);
 
@@ -36,10 +36,10 @@ export default function Admin() {
     if (image) fd.append('image', image);
     try {
       if (editId) {
-        await axios.put(`/api/projects/${editId}`, fd, getAuthHeader());
+        await API.put(`/api/projects/${editId}`, fd, getAuthHeader());
         setMsg('Updated!');
       } else {
-        await axios.post('/api/projects', fd, getAuthHeader());
+        await API.post('/api/projects', fd, getAuthHeader());
         setMsg('Added!');
       }
       setForm({ title: '', description: '', techStack: '', liveLink: '', githubLink: '', category: 'Web' });
@@ -59,7 +59,7 @@ export default function Admin() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Delete this project?')) {
-      await axios.delete(`/api/projects/${id}`, getAuthHeader());
+      await API.delete(`/api/projects/${id}`, getAuthHeader());
       fetchProjects();
     }
   };
