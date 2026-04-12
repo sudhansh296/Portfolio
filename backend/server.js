@@ -30,7 +30,8 @@ const loginLimiter = rateLimit({
 });
 app.use('/api/auth/login', loginLimiter);
 
-app.use(cors({ origin: ['http://localhost:3000'], credentials: true }));
+const allowedOrigins = process.env.FRONTEND_URL ? [process.env.FRONTEND_URL, 'http://localhost:3000'] : ['http://localhost:3000'];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
