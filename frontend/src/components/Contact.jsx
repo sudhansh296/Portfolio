@@ -11,7 +11,7 @@ export default function Contact() {
     setStatus('sending');
     try {
       await emailjs.send(
-        'service_beyma3x',
+        'service_p312t58',
         'template_se4icpn',
         {
           name: form.name,
