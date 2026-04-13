@@ -51,7 +51,7 @@ const styles = {
     padding: '18px 48px', backdropFilter: 'blur(20px)', transition: 'all 0.3s ease',
     gap: '40px'
   },
-  logo: { fontSize: '1.3rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px' },
+  logo: { fontSize: '1.3rem', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.5px' },
   logoPurple: {
     display: 'inline-block', background: 'linear-gradient(135deg, #6c63ff, #a855f7)',
     WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: 900
