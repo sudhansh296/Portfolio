@@ -10,16 +10,21 @@ export default function Contact() {
     e.preventDefault();
     setStatus('sending');
     try {
-      await emailjs.sendForm(
+      await emailjs.send(
         'service_beyma3x',
         'template_60mlgzm',
-        formRef.current,
+        {
+          name: form.name,
+          email: form.email,
+          message: form.message,
+        },
         'b6GyHFdl5nptLlEPn'
       );
       setStatus('sent');
       setForm({ name: '', email: '', message: '' });
       setTimeout(() => setStatus(''), 4000);
     } catch (err) {
+      console.log(err);
       setStatus('error');
       setTimeout(() => setStatus(''), 4000);
     }
