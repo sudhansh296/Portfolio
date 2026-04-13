@@ -7,9 +7,13 @@ export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState('All');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    API.get('/api/projects').then(res => setProjects(res.data)).catch(() => {});
+    API.get('/api/projects')
+      .then(res => setProjects(res.data))
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = filter === 'All' ? projects : projects.filter(p => p.category === filter);

@@ -13,7 +13,6 @@ export default function About() {
           </div>
         </div>
         <div style={styles.right}>
-          <p style={styles.tag}>// about me</p>
           <h2 style={styles.heading}>Who Am I?</h2>
           <p style={styles.bio}>
             Hey! I'm <span style={styles.highlight}>Sudhanshu Kumar</span>, a passionate full-stack developer

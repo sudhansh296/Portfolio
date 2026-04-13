@@ -26,7 +26,6 @@ export default function Skills() {
   return (
     <section id="skills" ref={ref} style={styles.section}>
       <div style={styles.inner}>
-        <p style={styles.tag}>// what I know</p>
         <h2 style={styles.heading}>Skills & Technologies</h2>
         <p style={styles.sub}>Tools I work with</p>
         <div style={styles.grid}>
