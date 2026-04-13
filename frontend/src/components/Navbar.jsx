@@ -52,7 +52,7 @@ const styles = {
     display: 'inline-block', background: 'linear-gradient(135deg, #6c63ff, #a855f7)',
     WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: 900
   },
-  links: { display: 'flex', gap: '28px', alignItems: 'center' },
+  links: { display: 'flex', gap: '32px', alignItems: 'center', justifyContent: 'space-between' },
   link: { textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' },
   adminBtn: {
     padding: '7px 18px', borderRadius: '20px', border: '1px solid #6c63ff',
