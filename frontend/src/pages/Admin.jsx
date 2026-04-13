@@ -9,6 +9,9 @@ export default function Admin() {
   const [image, setImage] = useState(null);
   const [editId, setEditId] = useState(null);
   const [msg, setMsg] = useState('');
+  const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState('');
+  const [photoMsg, setPhotoMsg] = useState('');
 
   const login = async () => {
     try {
@@ -27,7 +30,27 @@ export default function Admin() {
 
   const fetchProjects = () => API.get('/api/projects').then(r => setProjects(r.data));
 
-  useEffect(() => { if (auth) fetchProjects(); }, [auth]);
+  useEffect(() => {
+    if (auth) {
+      fetchProjects();
+      API.get('/api/profile').then(r => setPhotoPreview(r.data.photo)).catch(() => {});
+    }
+  }, [auth]);
+
+  const handlePhotoUpload = async (e) => {
+    e.preventDefault();
+    if (!photo) return;
+    const fd = new FormData();
+    fd.append('photo', photo);
+    try {
+      const res = await API.post('/api/profile/photo', fd, getAuthHeader());
+      setPhotoPreview(res.data.photo);
+      setPhotoMsg('Photo updated!');
+      setTimeout(() => setPhotoMsg(''), 2000);
+    } catch {
+      setPhotoMsg('Error uploading photo');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,6 +128,22 @@ export default function Admin() {
         {editId && <button type="button" onClick={() => { setEditId(null); setForm({ title: '', description: '', techStack: '', liveLink: '', githubLink: '', category: 'Web' }); }} style={{ ...styles.btn, background: '#333', marginLeft: '10px' }}>Cancel</button>}
         {msg && <p style={{ color: '#6c63ff', marginTop: '12px' }}>{msg}</p>}
       </form>
+
+      {/* Profile Photo Section */}
+      <div style={{ ...styles.form, marginBottom: '32px' }}>
+        <h3 style={{ marginBottom: '16px' }}>Profile Photo</h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+          {photoPreview
+            ? <img src={photoPreview} alt="Profile" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #6c63ff' }} />
+            : <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#1a1a2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem' }}>👤</div>
+          }
+          <form onSubmit={handlePhotoUpload} style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <input type="file" accept="image/*" onChange={e => setPhoto(e.target.files[0])} style={{ color: '#aaa' }} />
+            <button type="submit" style={{ ...styles.btn, padding: '8px 20px' }}>Upload</button>
+          </form>
+          {photoMsg && <p style={{ color: '#6c63ff' }}>{photoMsg}</p>}
+        </div>
+      </div>
 
       <h3 style={{ margin: '40px 0 16px' }}>All Projects ({projects.length})</h3>
       {projects.map(p => (

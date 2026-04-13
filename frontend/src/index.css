@@ -106,3 +106,13 @@ body {
   .hero-socials { gap: 8px !important; }
   .hero-cta { flex-direction: column !important; align-items: center !important; }
 }
+
+/* About photo center on mobile */
+@media (max-width: 768px) {
+  #about > div > div:first-child {
+    flex: none !important;
+    width: 100% !important;
+    justify-content: center !important;
+    display: flex !important;
+  }
+}

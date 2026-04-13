@@ -9,6 +9,8 @@ const skills = [
   { name: 'Express.js', level: 78, icon: '🚀' },
   { name: 'Git', level: 80, icon: '🐙' },
   { name: 'Python', level: 65, icon: '🐍' },
+  { name: 'Machine Learning', level: 60, icon: '🤖' },
+  { name: 'AI/Deep Learning', level: 55, icon: '🧠' },
 ];
 
 export default function Skills() {

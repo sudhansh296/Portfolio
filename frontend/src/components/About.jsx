@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import API from '../api';
 
 export default function About() {
+  const [photo, setPhoto] = useState('');
+
+  useEffect(() => {
+    API.get('/api/profile').then(r => setPhoto(r.data.photo)).catch(() => {});
+  }, []);
+
   return (
     <section id="about" style={styles.section}>
       <div style={styles.inner}>
         <div style={styles.left}>
           <div style={styles.imgWrap}>
-            <div style={styles.imgPlaceholder}>
-              <span style={{ fontSize: '4rem' }}>👨‍💻</span>
-            </div>
+            {photo
+              ? <img src={photo} alt="Sudhanshu Kumar" style={{ width: '280px', height: '280px', borderRadius: '24px', objectFit: 'cover', border: '1px solid var(--border)' }} />
+              : <div style={styles.imgPlaceholder}><span style={{ fontSize: '4rem' }}>👨‍💻</span></div>
+            }
             <div style={styles.imgGlow} />
           </div>
         </div>
