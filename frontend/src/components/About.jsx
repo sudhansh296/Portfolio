@@ -45,14 +45,14 @@ export default function About() {
 }
 
 const styles = {
-  section: { padding: '100px 40px', background: '#050508' },
+  section: { padding: '100px 40px', background: 'var(--bg)' },
   inner: { maxWidth: '1100px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center', flexWrap: 'wrap' },
   left: { flex: '0 0 300px', display: 'flex', justifyContent: 'center' },
   imgWrap: { position: 'relative' },
   imgPlaceholder: {
     width: '280px', height: '280px', borderRadius: '24px',
-    background: 'linear-gradient(135deg, #0d0d20, #1a1a2e)',
-    border: '1px solid #2a2a4a', display: 'flex', alignItems: 'center', justifyContent: 'center'
+    background: 'var(--bg3)', border: '1px solid var(--border)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center'
   },
   imgGlow: {
     position: 'absolute', inset: '-2px', borderRadius: '26px', zIndex: -1,
@@ -60,14 +60,14 @@ const styles = {
   },
   right: { flex: 1, minWidth: '280px' },
   tag: { color: '#6c63ff', fontSize: '0.85rem', fontFamily: 'monospace', marginBottom: '10px' },
-  heading: { fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '20px', letterSpacing: '-1px' },
-  bio: { color: '#666', lineHeight: 1.8, marginBottom: '16px', fontSize: '1rem' },
+  heading: { fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '20px', letterSpacing: '-1px', color: 'var(--text)' },
+  bio: { color: 'var(--text3)', lineHeight: 1.8, marginBottom: '16px', fontSize: '1rem' },
   highlight: { color: '#a78bfa', fontWeight: 600 },
   infoGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '28px' },
   infoCard: {
     display: 'flex', gap: '12px', alignItems: 'center',
-    background: '#0d0d14', border: '1px solid #1a1a2e', borderRadius: '10px', padding: '14px'
+    background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '10px', padding: '14px'
   },
-  infoLabel: { color: '#555', fontSize: '0.75rem', marginBottom: '2px' },
-  infoVal: { color: '#e0e0e0', fontWeight: 600, fontSize: '0.9rem' }
+  infoLabel: { color: 'var(--text3)', fontSize: '0.75rem', marginBottom: '2px' },
+  infoVal: { color: 'var(--text)', fontWeight: 600, fontSize: '0.9rem' }
 };

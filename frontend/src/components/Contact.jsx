@@ -48,18 +48,18 @@ export default function Contact() {
 }
 
 const styles = {
-  section: { padding: '100px 40px', background: '#07070f' },
+  section: { padding: '100px 40px', background: 'var(--bg2)' },
   inner: { maxWidth: '700px', margin: '0 auto' },
   tag: { color: '#6c63ff', fontSize: '0.85rem', fontFamily: 'monospace', marginBottom: '10px' },
-  heading: { fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '10px', letterSpacing: '-1px' },
-  sub: { color: '#555', marginBottom: '40px' },
-  form: { background: '#0d0d14', border: '1px solid #1a1a2e', borderRadius: '16px', padding: '32px' },
+  heading: { fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '10px', letterSpacing: '-1px', color: 'var(--text)' },
+  sub: { color: 'var(--text3)', marginBottom: '40px' },
+  form: { background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '16px', padding: '32px' },
   row: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' },
   field: { marginBottom: '20px' },
-  label: { display: 'block', color: '#666', fontSize: '0.85rem', marginBottom: '8px' },
+  label: { display: 'block', color: 'var(--text3)', fontSize: '0.85rem', marginBottom: '8px' },
   input: {
-    width: '100%', padding: '12px 16px', background: '#111', border: '1px solid #222',
-    borderRadius: '8px', color: '#fff', fontSize: '0.95rem', outline: 'none',
+    width: '100%', padding: '12px 16px', background: 'var(--bg)', border: '1px solid var(--border)',
+    borderRadius: '8px', color: 'var(--text)', fontSize: '0.95rem', outline: 'none',
     fontFamily: 'Inter, sans-serif', boxSizing: 'border-box'
   },
   btn: {

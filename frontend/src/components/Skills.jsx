@@ -52,17 +52,17 @@ export default function Skills() {
 }
 
 const styles = {
-  section: { padding: '100px 40px', background: '#07070f' },
+  section: { padding: '100px 40px', background: 'var(--bg2)' },
   inner: { maxWidth: '900px', margin: '0 auto' },
   tag: { color: '#6c63ff', fontSize: '0.85rem', fontFamily: 'monospace', marginBottom: '10px' },
-  heading: { fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '10px', letterSpacing: '-1px' },
-  sub: { color: '#555', marginBottom: '48px' },
+  heading: { fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '10px', letterSpacing: '-1px', color: 'var(--text)' },
+  sub: { color: 'var(--text3)', marginBottom: '48px' },
   grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '20px' },
-  card: { background: '#0d0d14', border: '1px solid #1a1a2e', borderRadius: '12px', padding: '20px' },
+  card: { background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px' },
   cardTop: { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' },
   icon: { fontSize: '1.2rem' },
-  name: { flex: 1, fontWeight: 600, color: '#e0e0e0' },
+  name: { flex: 1, fontWeight: 600, color: 'var(--text)' },
   percent: { color: '#6c63ff', fontWeight: 700, fontSize: '0.9rem' },
-  barBg: { height: '6px', background: '#1a1a2e', borderRadius: '3px', overflow: 'hidden' },
+  barBg: { height: '6px', background: 'var(--border)', borderRadius: '3px', overflow: 'hidden' },
   bar: { height: '100%', background: 'linear-gradient(90deg, #6c63ff, #a855f7)', borderRadius: '3px' }
 };

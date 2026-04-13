@@ -12,8 +12,11 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    document.body.style.background = dark ? '#050508' : '#f5f5f5';
-    document.body.style.color = dark ? '#fff' : '#111';
+    if (dark) {
+      document.body.classList.remove('light');
+    } else {
+      document.body.classList.add('light');
+    }
   }, [dark]);
 
   const links = ['Home', 'About', 'Skills', 'Projects', 'Contact'];

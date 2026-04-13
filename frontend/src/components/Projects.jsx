@@ -108,22 +108,22 @@ export default function Projects() {
 }
 
 const styles = {
-  section: { padding: '100px 40px', background: '#050508' },
+  section: { padding: '100px 40px', background: 'var(--bg)' },
   inner: { maxWidth: '1200px', margin: '0 auto' },
   sectionTag: { color: '#6c63ff', fontSize: '0.85rem', fontFamily: 'monospace', marginBottom: '10px' },
-  heading: { fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '10px', letterSpacing: '-1px' },
-  sub: { color: '#555', marginBottom: '40px', fontSize: '1rem' },
+  heading: { fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '10px', letterSpacing: '-1px', color: 'var(--text)' },
+  sub: { color: 'var(--text3)', marginBottom: '40px', fontSize: '1rem' },
   filters: { display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '48px' },
   filterBtn: {
-    padding: '8px 20px', borderRadius: '20px', border: '1px solid #1a1a2e',
-    background: 'transparent', color: '#555', cursor: 'pointer', fontSize: '0.85rem',
+    padding: '8px 20px', borderRadius: '20px', border: '1px solid var(--border)',
+    background: 'transparent', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.85rem',
     fontWeight: 500, transition: 'all 0.2s', fontFamily: 'Inter, sans-serif'
   },
   filterActive: { background: 'linear-gradient(135deg, #6c63ff, #a855f7)', color: '#fff', border: '1px solid transparent' },
   empty: { textAlign: 'center', padding: '80px 0' },
   grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' },
   card: {
-    background: '#0d0d14', border: '1px solid #1a1a2e', borderRadius: '16px',
+    background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '16px',
     overflow: 'hidden', cursor: 'pointer'
   },
   cardImgWrap: { position: 'relative', overflow: 'hidden' },
