@@ -12,7 +12,7 @@ export default function Contact() {
     try {
       await emailjs.send(
         'service_p312t58',
-        'template_se4icpn',
+        'template_05a7ig8',
         {
           name: form.name,
           email: form.email,
