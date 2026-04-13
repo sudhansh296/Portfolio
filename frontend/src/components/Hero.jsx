@@ -1,57 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import Particles from 'react-tsparticles';
+import { loadSlim } from 'tsparticles-slim';
+import { TypeAnimation } from 'react-type-animation';
 
 const socials = [
-  { name: 'GitHub', url: 'https://github.com/sudhanshu-kumar', icon: '🐙' },
+  { name: 'GitHub', url: 'https://github.com/sudhansh296', icon: '🐙' },
   { name: 'LinkedIn', url: 'https://linkedin.com/in/sudhanshu-kumar', icon: '💼' },
   { name: 'Instagram', url: 'https://instagram.com/sudhanshu-kumar', icon: '📸' },
   { name: 'YouTube', url: 'https://youtube.com/@sudhanshu-kumar', icon: '▶️' },
 ];
 
-const roles = ['Developer', 'Creator', 'Builder', 'Designer'];
-
 export default function Hero() {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        setRoleIndex(i => (i + 1) % roles.length);
-        setVisible(true);
-      }, 300);
-    }, 2000);
-    return () => clearInterval(interval);
+  const particlesInit = useCallback(async (engine) => {
+    await loadSlim(engine);
   }, []);
 
   return (
     <section id="home" style={styles.section}>
-      {/* Background grid */}
+      <Particles id="tsparticles" init={particlesInit} options={{
+        background: { color: { value: 'transparent' } },
+        fpsLimit: 60,
+        particles: {
+          color: { value: '#6c63ff' },
+          links: { color: '#6c63ff', distance: 150, enable: true, opacity: 0.15, width: 1 },
+          move: { enable: true, speed: 0.8 },
+          number: { density: { enable: true, area: 800 }, value: 60 },
+          opacity: { value: 0.2 },
+          size: { value: { min: 1, max: 3 } }
+        }
+      }} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
+
       <div style={styles.grid} />
-      {/* Glow orbs */}
       <div style={styles.orb1} />
       <div style={styles.orb2} />
 
       <div style={{ ...styles.content, animation: 'fadeUp 0.8s ease forwards' }}>
         <div style={styles.badge}>
           <span style={styles.badgeDot} />
-          Available for work
+          Available for freelance work
         </div>
 
-        <h1 style={styles.name} className="gradient-text">
-          Sudhanshu Kumar
-        </h1>
+        <h1 style={styles.name}>Sudhanshu Kumar</h1>
 
-        <div style={styles.roleWrap}>
-          <span style={styles.rolePrefix}>I'm a </span>
-          <span style={{ ...styles.role, opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(-10px)', transition: 'all 0.3s ease' }}>
-            {roles[roleIndex]}
-          </span>
+        <div style={styles.typeWrap}>
+          <span style={{ color: '#555' }}>I'm a </span>
+          <TypeAnimation
+            sequence={['Developer', 2000, 'Creator', 2000, 'Builder', 2000, 'Freelancer', 2000]}
+            wrapper="span" speed={50} repeat={Infinity}
+            style={{ color: '#a78bfa', fontWeight: 700 }}
+          />
         </div>
 
         <p style={styles.bio}>
           I build things for the web and beyond. Passionate about creating
-          unique digital experiences and sharing my journey through projects.
+          unique digital experiences and delivering quality freelance projects.
         </p>
 
         <div style={styles.socials}>
@@ -59,26 +61,18 @@ export default function Hero() {
             <a key={s.name} href={s.url} target="_blank" rel="noreferrer" style={styles.socialBtn}
               onMouseEnter={e => { e.currentTarget.style.background = '#1a1a2e'; e.currentTarget.style.borderColor = '#6c63ff'; e.currentTarget.style.color = '#a78bfa'; }}
               onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = '#222'; e.currentTarget.style.color = '#888'; }}>
-              <span>{s.icon}</span> {s.name}
+              {s.icon} {s.name}
             </a>
           ))}
         </div>
 
         <div style={styles.ctaRow}>
-          <a href="#projects" style={styles.ctaPrimary}
-            onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-            View Projects →
-          </a>
-          <a href="#contact" style={styles.ctaSecondary}
-            onMouseEnter={e => { e.currentTarget.style.background = '#1a1a2e'; e.currentTarget.style.borderColor = '#6c63ff'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = '#333'; }}>
-            Contact Me
-          </a>
+          <a href="#projects" style={styles.ctaPrimary}>View Projects →</a>
+          <a href="#contact-form" style={styles.ctaSecondary}>Hire Me</a>
         </div>
 
         <div style={styles.stats}>
-          {[['Projects', '10+'], ['Experience', '2+ Yrs'], ['Technologies', '15+']].map(([label, val]) => (
+          {[['10+', 'Projects'], ['2+ Yrs', 'Experience'], ['15+', 'Technologies']].map(([val, label]) => (
             <div key={label} style={styles.stat}>
               <span style={styles.statVal}>{val}</span>
               <span style={styles.statLabel}>{label}</span>
@@ -120,16 +114,16 @@ const styles = {
   },
   badgeDot: {
     width: '7px', height: '7px', borderRadius: '50%',
-    background: '#4ade80', display: 'inline-block',
-    boxShadow: '0 0 8px #4ade80'
+    background: '#4ade80', display: 'inline-block', boxShadow: '0 0 8px #4ade80'
   },
   name: {
     fontSize: 'clamp(2.8rem, 7vw, 5.5rem)', fontWeight: 900,
-    marginBottom: '16px', letterSpacing: '-2px', lineHeight: 1.1
+    marginBottom: '16px', letterSpacing: '-2px', lineHeight: 1.1,
+    background: 'linear-gradient(135deg, #fff 0%, #a78bfa 50%, #6c63ff 100%)',
+    backgroundSize: '200% auto', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+    animation: 'shimmer 3s linear infinite'
   },
-  roleWrap: { fontSize: '1.4rem', marginBottom: '20px', color: '#666' },
-  rolePrefix: { color: '#555' },
-  role: { color: '#a78bfa', fontWeight: 700, display: 'inline-block' },
+  typeWrap: { fontSize: '1.4rem', marginBottom: '20px' },
   bio: { color: '#555', maxWidth: '480px', margin: '0 auto 36px', lineHeight: 1.8, fontSize: '1rem' },
   socials: { display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '36px' },
   socialBtn: {
@@ -142,12 +136,11 @@ const styles = {
     padding: '13px 32px', borderRadius: '10px',
     background: 'linear-gradient(135deg, #6c63ff, #a855f7)',
     color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem',
-    transition: 'transform 0.2s', boxShadow: '0 8px 30px rgba(108,99,255,0.3)'
+    boxShadow: '0 8px 30px rgba(108,99,255,0.3)', transition: 'transform 0.2s'
   },
   ctaSecondary: {
-    padding: '13px 32px', borderRadius: '10px',
-    border: '1px solid #333', color: '#aaa',
-    textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem', transition: 'all 0.2s'
+    padding: '13px 32px', borderRadius: '10px', border: '1px solid #333',
+    color: '#aaa', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem', transition: 'all 0.2s'
   },
   stats: { display: 'flex', gap: '40px', justifyContent: 'center', paddingTop: '32px', borderTop: '1px solid #111' },
   stat: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' },
