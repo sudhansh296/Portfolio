@@ -17,8 +17,6 @@ export default function Projects() {
   return (
     <section id="projects" style={styles.section}>
       <div style={styles.inner}>
-        <p style={styles.sectionTag}>// my work</p>
-        <h2 style={styles.heading}>Featured Projects</h2>
         <p style={styles.sub}>Things I've built and shipped</p>
 
         {/* Filter tabs */}

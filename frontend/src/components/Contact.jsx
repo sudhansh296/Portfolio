@@ -18,7 +18,6 @@ export default function Contact() {
   return (
     <section id="contact-form" style={styles.section}>
       <div style={styles.inner}>
-        <p style={styles.tag}>// get in touch</p>
         <h2 style={styles.heading}>Contact Me</h2>
         <p style={styles.sub}>Have a project? Let's talk!</p>
         <form onSubmit={handleSubmit} style={styles.form}>

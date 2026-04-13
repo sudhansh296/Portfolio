@@ -12,7 +12,6 @@ export default function Footer() {
     <footer id="contact" style={styles.footer}>
       <div style={styles.inner}>
         <div style={styles.cta}>
-          <p style={styles.ctaTag}>// let's connect</p>
           <h2 style={styles.ctaHeading}>Have a project in mind?</h2>
           <p style={styles.ctaSub}>I'm always open to discussing new projects and opportunities.</p>
           <a href="mailto:sudhanshu@email.com" style={styles.emailBtn}>Say Hello 👋</a>
