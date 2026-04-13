@@ -48,7 +48,8 @@ const styles = {
   nav: {
     position: 'fixed', top: 0, width: '100%', zIndex: 100,
     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-    padding: '18px 48px', backdropFilter: 'blur(20px)', transition: 'all 0.3s ease'
+    padding: '18px 48px', backdropFilter: 'blur(20px)', transition: 'all 0.3s ease',
+    gap: '40px'
   },
   logo: { fontSize: '1.3rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px' },
   logoPurple: {
@@ -56,7 +57,7 @@ const styles = {
     WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: 900
   },
   links: { display: 'flex', gap: '32px', alignItems: 'center', justifyContent: 'space-between' },
-  link: { textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s' },
+  link: { textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s', whiteSpace: 'nowrap' },
   adminBtn: {
     padding: '7px 18px', borderRadius: '20px', border: '1px solid #6c63ff',
     color: '#a78bfa', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600
