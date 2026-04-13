@@ -1,10 +1,11 @@
 import React from 'react';
 
 const socials = [
-  { name: 'GitHub', url: 'https://github.com/sudhanshu-kumar', icon: '🐙' },
-  { name: 'LinkedIn', url: 'https://linkedin.com/in/sudhanshu-kumar', icon: '💼' },
-  { name: 'Instagram', url: 'https://instagram.com/sudhanshu-kumar', icon: '📸' },
-  { name: 'YouTube', url: 'https://youtube.com/@sudhanshu-kumar', icon: '▶️' },
+  { name: 'GitHub', url: 'https://github.com/sudhansh296', icon: '🐙' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/sudhanshu-kumar-867918257', icon: '💼' },
+  { name: 'Instagram', url: 'https://www.instagram.com/coder_lobby', icon: '📸' },
+  { name: 'YouTube', url: 'https://youtube.com/@coder_lobby', icon: '▶️' },
+  { name: 'Telegram', url: 'https://t.me/coding_python_programming', icon: '✈️' },
 ];
 
 export default function Footer() {
