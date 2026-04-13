@@ -12,7 +12,7 @@ export default function Contact() {
     try {
       await emailjs.send(
         'service_beyma3x',
-        'template_ymlbtf8',
+        'template_se4icpn',
         {
           name: form.name,
           email: form.email,
