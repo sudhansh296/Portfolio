@@ -79,7 +79,10 @@ export default function Admin() {
   return (
     <div style={styles.wrap}>
       <h1 style={styles.heading}>Admin Panel</h1>
-      <a href="/" style={{ color: '#6c63ff', marginBottom: '24px', display: 'inline-block' }}>← Back to site</a>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <a href="/" style={{ color: '#6c63ff' }}>← Back to site</a>
+        <button onClick={() => { localStorage.removeItem('admin'); localStorage.removeItem('token'); setAuth(false); }} style={{ ...styles.btn, background: '#c0392b', padding: '8px 18px', fontSize: '0.85rem' }}>Logout</button>
+      </div>
 
       <form onSubmit={handleSubmit} style={styles.form}>
         <h3 style={{ marginBottom: '16px' }}>{editId ? 'Edit Project' : 'Add New Project'}</h3>
