@@ -26,7 +26,7 @@ export default function Navbar() {
       <span style={styles.logo}>
         <span style={styles.logoPurple}>S</span>udhanshu
       </span>
-      <div style={{ ...styles.links, display: menuOpen ? 'flex' : undefined }}>
+      <div style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
         {links.map(item => (
           <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}
             style={{ ...styles.link, color: dark ? '#888' : '#555' }}
