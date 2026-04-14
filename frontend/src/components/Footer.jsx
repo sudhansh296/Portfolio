@@ -15,7 +15,7 @@ export default function Footer() {
         <div style={styles.cta}>
           <h2 style={styles.ctaHeading}>Have a project in mind?</h2>
           <p style={styles.ctaSub}>I'm always open to discussing new projects and opportunities.</p>
-          <a href="mailto:sudhanshu@email.com" style={styles.emailBtn}>Say Hello 👋</a>
+          <a href="mailto:sudhanshuraj801302@gmail.com" style={styles.emailBtn}>Say Hello 👋</a>
         </div>
 
         <div style={styles.divider} />
