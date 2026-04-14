@@ -143,8 +143,8 @@ const styles = {
     padding: '13px 32px', borderRadius: '10px', border: '1px solid #333',
     color: '#aaa', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem', transition: 'all 0.2s'
   },
-  stats: { display: 'flex', gap: '40px', justifyContent: 'center', paddingTop: '32px', borderTop: '1px solid #111' },
+  stats: { display: 'flex', gap: '40px', justifyContent: 'center', paddingTop: '32px', borderTop: '1px solid var(--border)' },
   stat: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' },
-  statVal: { fontSize: '1.6rem', fontWeight: 800, color: '#fff' },
-  statLabel: { fontSize: '0.8rem', color: '#555', textTransform: 'uppercase', letterSpacing: '1px' }
+  statVal: { fontSize: '1.6rem', fontWeight: 800, color: 'var(--text)' },
+  statLabel: { fontSize: '0.8rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '1px' }
 };
