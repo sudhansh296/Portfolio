@@ -146,8 +146,8 @@ const styles = {
   },
   cardLinks: { display: 'flex', gap: '8px' },
   iconLink: { fontSize: '1rem', textDecoration: 'none', opacity: 0.7, transition: 'opacity 0.2s' },
-  title: { fontSize: '1.15rem', fontWeight: 700, marginBottom: '8px', color: '#f0f0f0' },
-  desc: { color: '#666', fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '14px' },
+  title: { fontSize: '1.15rem', fontWeight: 700, marginBottom: '8px', color: 'var(--text)' },
+  desc: { color: 'var(--text3)', fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '14px' },
   tags: { display: 'flex', flexWrap: 'wrap', gap: '6px' },
   tag: {
     background: 'rgba(108,99,255,0.1)', color: '#a78bfa',
