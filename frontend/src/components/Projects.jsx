@@ -11,10 +11,56 @@ export default function Projects() {
 
   useEffect(() => {
     API.get('/api/projects')
-      .then(res => setProjects(res.data))
-      .catch(() => {})
+      .then(res => {
+        const projects = res.data;
+        
+        // Add MusiqFlow app if not already present
+        const hasMusiqFlow = projects.some(p => p.title === 'MusiqFlow Lite');
+        if (!hasMusiqFlow) {
+          const musiqFlowProject = {
+            _id: 'musiqflow-lite',
+            title: 'MusiqFlow Lite',
+            description: 'A lightweight music streaming app with YouTube integration. Features include smart search, background playback, and Material Design UI.',
+            techStack: ['Kotlin', 'Jetpack Compose', 'ExoPlayer', 'Material3', 'Coroutines'],
+            image: '/images/musiqflow-screen1.jpg',
+            liveLink: '#musiqflow-app', // Link to app section
+            githubLink: 'https://github.com/sudhansh296/musiqflow-lite',
+            category: 'Mobile',
+            createdAt: new Date()
+          };
+          projects.unshift(musiqFlowProject); // Add at beginning
+        }
+        
+        setProjects(projects);
+      })
+      .catch(() => {
+        // If API fails, show MusiqFlow as fallback
+        const musiqFlowProject = {
+          _id: 'musiqflow-lite',
+          title: 'MusiqFlow Lite',
+          description: 'A lightweight music streaming app with YouTube integration. Features include smart search, background playback, and Material Design UI.',
+          techStack: ['Kotlin', 'Jetpack Compose', 'ExoPlayer', 'Material3', 'Coroutines'],
+          image: '/images/musiqflow-screen1.jpg',
+          liveLink: '#musiqflow-app',
+          githubLink: 'https://github.com/sudhansh296/musiqflow-lite',
+          category: 'Mobile',
+          createdAt: new Date()
+        };
+        setProjects([musiqFlowProject]);
+      })
       .finally(() => setLoading(false));
   }, []);
+
+  const handleCardClick = (project) => {
+    if (project._id === 'musiqflow-lite') {
+      // Scroll to app section
+      document.getElementById('musiqflow-app')?.scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    } else {
+      setSelected(project);
+    }
+  };
 
   const filtered = filter === 'All' ? projects : projects.filter(p => p.category === filter);
 
@@ -42,14 +88,16 @@ export default function Projects() {
           <div style={styles.grid}>
             {filtered.map((p, i) => (
               <div key={p._id} className="card-hover" style={{ ...styles.card, animationDelay: `${i * 0.1}s` }}
-                onClick={() => setSelected(p)}>
+                onClick={() => handleCardClick(p)}>
                 <div style={styles.cardImgWrap}>
                   {p.image
                     ? <img src={p.image} alt={p.title} style={styles.img} />
                     : <div style={styles.imgPlaceholder}><span style={{ fontSize: '2.5rem' }}>🖥️</span></div>
                   }
                   <div style={styles.cardOverlay}>
-                    <span style={styles.viewBtn}>View Details →</span>
+                    <span style={styles.viewBtn}>
+                      {p._id === 'musiqflow-lite' ? 'View App →' : 'View Details →'}
+                    </span>
                   </div>
                 </div>
                 <div style={styles.cardBody}>
