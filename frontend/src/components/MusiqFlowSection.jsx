@@ -9,121 +9,242 @@ const MusiqFlowSection = () => {
     setDownloadCount(Math.floor(Math.random() * 500) + 100);
   }, []);
 
-  const shareApp = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'MusiqFlow Lite - Music Streaming App',
-        text: 'Check out this awesome music streaming app by Sudhanshu! 🎵',
+  const shareApp = (appName) => {
+    const shareData = {
+      'musiqflow': {
+        title: 'MusiqFlow - Advanced Music Streaming Platform',
+        text: 'Check out MusiqFlow, an amazing music streaming app with real-time lyrics and high-quality audio! 🎵',
         url: window.location.href
-      });
+      },
+      'musiqflow-lite': {
+        title: 'MusiqFlow Lite - Native Android Music Player',
+        text: 'Experience MusiqFlow Lite, a native Android music player built with Kotlin and Jetpack Compose! 🎵',
+        url: window.location.href
+      }
+    };
+
+    const data = shareData[appName] || shareData['musiqflow'];
+    
+    if (navigator.share) {
+      navigator.share(data);
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(`${data.title}\n${data.text}\n${data.url}`);
       alert('Link copied to clipboard! 📋');
     }
   };
 
-  const handleDownload = () => {
+  const handleDownload = (appName) => {
     // Track download (you can add analytics here)
-    console.log('APK Download started');
+    console.log(`${appName} Download started`);
   };
 
   return (
-    <section className="musiqflow-section" id="musiqflow-app">
+    <section className="musiqflow-section" id="mobile-apps">
       <div className="container">
         <div className="section-header">
-          <h2>🎵 MusiqFlow Lite</h2>
-          <p className="section-subtitle">Your Personal Music Streaming Companion</p>
+          <h2>📱 Mobile Applications</h2>
+          <p className="section-subtitle">Cross-platform mobile apps built with modern technologies</p>
         </div>
         
-        <div className="app-showcase">
-          <div className="app-info">
-            <div className="app-description">
-              <h3>✨ Features</h3>
-              <ul className="features-list">
-                <li>🎵 <strong>YouTube Music Streaming</strong> - Access millions of songs</li>
-                <li>🔍 <strong>Smart Search</strong> - Find songs, artists, and albums instantly</li>
-                <li>📱 <strong>Material Design UI</strong> - Clean and intuitive interface</li>
-                <li>⚡ <strong>Fast & Lightweight</strong> - Optimized performance</li>
-                <li>🎧 <strong>Background Playback</strong> - Music continues while multitasking</li>
-                <li>🔄 <strong>Auto Updates</strong> - Always get the latest features</li>
-              </ul>
-            </div>
-            
-            <div className="app-stats">
-              <div className="stat">
-                <span className="stat-number">{downloadCount}+</span>
-                <span className="stat-label">Downloads</span>
+        <div className="apps-grid">
+          {/* MusiqFlow (Left Side) */}
+          <div className="app-card musiqflow">
+            <div className="app-header">
+              <div className="app-icon">
+                <span>🎵</span>
               </div>
-              <div className="stat">
-                <span className="stat-number">4.8★</span>
-                <span className="stat-label">Rating</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">4.3MB</span>
-                <span className="stat-label">Size</span>
+              <div className="app-info">
+                <h3>MusiqFlow</h3>
+                <p>Advanced Music Streaming Platform</p>
               </div>
             </div>
-            
-            <div className="download-section">
-              <a 
-                href="/downloads/musiqflow-lite-v1.0.0.apk" 
-                className="download-btn primary"
-                download="MusiqFlow-Lite.apk"
-                onClick={handleDownload}
-              >
-                📱 Download APK
-                <span className="btn-subtitle">Android 8.0+</span>
-              </a>
-              
-              <button className="share-btn secondary" onClick={shareApp}>
-                🔗 Share App
-              </button>
-            </div>
-            
-            <div className="tech-stack">
-              <h4>🛠️ Built With</h4>
-              <div className="tech-tags">
-                <span className="tech-tag">Kotlin</span>
-                <span className="tech-tag">Jetpack Compose</span>
-                <span className="tech-tag">ExoPlayer</span>
-                <span className="tech-tag">Material3</span>
-                <span className="tech-tag">Coroutines</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="app-preview">
-            <div className="phone-mockup">
-              <div className="phone-frame">
-                <div className="phone-screen">
-                  <img 
-                    src="/images/musiqflow-screen1.jpg" 
-                    alt="MusiqFlow Home Screen" 
-                    className="screenshot active"
-                  />
+
+            <div className="app-preview">
+              <div className="phone-mockup">
+                <div className="phone-frame">
+                  <div className="phone-screen">
+                    <div className="app-screenshot">
+                      <div className="music-player-ui">
+                        <div className="search-bar">
+                          <span>🔍 Search songs, artists...</span>
+                        </div>
+                        <div className="artist-grid">
+                          <div className="artist-card">
+                            <div className="artist-avatar"></div>
+                            <span>Arijit Singh</span>
+                          </div>
+                          <div className="artist-card">
+                            <div className="artist-avatar"></div>
+                            <span>Ed Sheeran</span>
+                          </div>
+                        </div>
+                        <div className="now-playing">
+                          <div className="album-art"></div>
+                          <div className="track-info">
+                            <div className="track-name">Perfect</div>
+                            <div className="artist-name">Ed Sheeran</div>
+                          </div>
+                          <div className="controls">
+                            <span>⏮️</span>
+                            <span>▶️</span>
+                            <span>⏭️</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <div className="screenshot-gallery">
-              <img 
-                src="/images/musiqflow-screen1.jpg" 
-                alt="Home Screen" 
-                className="thumbnail"
-              />
-              <img 
-                src="/images/musiqflow-screen2.jpg" 
-                alt="Player Screen" 
-                className="thumbnail"
-              />
+
+            <div className="app-description">
+              <h4>✨ Features</h4>
+              <ul className="features-list">
+                <li>🎵 High-quality music streaming</li>
+                <li>📝 Real-time synced lyrics</li>
+                <li>🔄 Background playback</li>
+                <li>📱 Cross-platform support</li>
+                <li>🎯 Smart recommendations</li>
+              </ul>
+
+              <div className="tech-stack">
+                <h5>🛠️ Tech Stack</h5>
+                <div className="tech-tags">
+                  <span className="tech-tag">Capacitor</span>
+                  <span className="tech-tag">JavaScript</span>
+                  <span className="tech-tag">Node.js</span>
+                  <span className="tech-tag">YouTube API</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="app-actions">
+              <a 
+                href="/downloads/musiqflow.apk" 
+                className="download-btn primary"
+                download="MusiqFlow.apk"
+                onClick={() => handleDownload('musiqflow')}
+              >
+                📱 Download APK
+              </a>
+              <button className="share-btn secondary" onClick={() => shareApp('musiqflow')}>
+                🔗 Share
+              </button>
+              <a href="https://github.com/sudhansh296/Portfolio" className="github-btn" target="_blank" rel="noopener noreferrer">
+                📂 View Code
+              </a>
+            </div>
+          </div>
+
+          {/* MusiqFlow Lite (Right Side) */}
+          <div className="app-card musiqflow-lite">
+            <div className="app-header">
+              <div className="app-icon lite">
+                <span>🎧</span>
+              </div>
+              <div className="app-info">
+                <h3>MusiqFlow Lite</h3>
+                <p>Native Android Music Player</p>
+              </div>
+            </div>
+
+            <div className="app-preview">
+              <div className="phone-mockup">
+                <div className="phone-frame">
+                  <div className="phone-screen">
+                    <div className="app-screenshot">
+                      <div className="native-player-ui">
+                        <div className="status-bar">
+                          <span>9:41</span>
+                          <div className="status-icons">
+                            <span>📶 📶 🔋</span>
+                          </div>
+                        </div>
+                        <div className="player-content">
+                          <div className="large-album-art"></div>
+                          <div className="track-details">
+                            <h4>Blinding Lights</h4>
+                            <p>The Weeknd</p>
+                          </div>
+                          <div className="progress-bar">
+                            <div className="progress-fill"></div>
+                          </div>
+                          <div className="player-controls">
+                            <span>🔀</span>
+                            <span>⏮️</span>
+                            <span>⏸️</span>
+                            <span>⏭️</span>
+                            <span>🔁</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="app-description">
+              <h4>✨ Features</h4>
+              <ul className="features-list">
+                <li>⚡ Native Android performance</li>
+                <li>🎨 Material Design 3</li>
+                <li>🔔 Notification controls</li>
+                <li>🔋 Optimized battery usage</li>
+                <li>🎵 Background service</li>
+              </ul>
+
+              <div className="tech-stack">
+                <h5>🛠️ Tech Stack</h5>
+                <div className="tech-tags">
+                  <span className="tech-tag">Kotlin</span>
+                  <span className="tech-tag">Jetpack Compose</span>
+                  <span className="tech-tag">Media3</span>
+                  <span className="tech-tag">MVVM</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="app-actions">
+              <a 
+                href="/downloads/musiqflow-lite.apk" 
+                className="download-btn primary"
+                download="MusiqFlow-Lite.apk"
+                onClick={() => handleDownload('musiqflow-lite')}
+              >
+                📱 Download APK
+              </a>
+              <button className="share-btn secondary" onClick={() => shareApp('musiqflow-lite')}>
+                🔗 Share
+              </button>
+              <a href="https://github.com/sudhansh296/musiqflow-lite" className="github-btn" target="_blank" rel="noopener noreferrer">
+                📂 View Code
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="app-stats-section">
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-number">1000+</div>
+              <div className="stat-label">Downloads</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">4.8★</div>
+              <div className="stat-label">Rating</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">500+</div>
+              <div className="stat-label">Active Users</div>
             </div>
           </div>
         </div>
 
         <div className="app-footer">
           <p className="disclaimer">
-            ⚠️ <strong>Note:</strong> This app is for educational purposes. 
-            Enable "Install from Unknown Sources" in Android settings to install.
+            ⚠️ <strong>Note:</strong> These apps are for educational purposes. 
+            Enable "Install from Unknown Sources" in Android settings to install APK files.
           </p>
         </div>
       </div>

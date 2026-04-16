@@ -16,7 +16,14 @@ export default function Navbar() {
     else document.body.classList.add('light');
   }, [dark]);
 
-  const links = ['Home', 'About', 'Skills', 'Projects', 'Apps', 'Contact'];
+  const links = [
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Mobile Apps', href: '/mobile-apps' },
+    { name: 'Contact', href: '#contact' }
+  ];
 
   return (
     <>
@@ -35,11 +42,11 @@ export default function Navbar() {
         {/* Desktop links */}
         <div className="nav-desktop" style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
           {links.map(item => (
-            <a key={item} href={item === 'Apps' ? '#musiqflow-app' : `#${item.toLowerCase()}`}
+            <a key={item.name} href={item.href}
               style={{ color: dark ? '#888' : '#555', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, whiteSpace: 'nowrap' }}
               onMouseEnter={e => e.target.style.color = '#a78bfa'}
               onMouseLeave={e => e.target.style.color = dark ? '#888' : '#555'}>
-              {item}
+              {item.name}
             </a>
           ))}
           <a href="/admin" style={{ padding: '7px 16px', borderRadius: '20px', border: '1px solid #6c63ff', color: '#a78bfa', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Admin</a>
@@ -70,9 +77,9 @@ export default function Navbar() {
           borderBottom: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: '16px'
         }}>
           {links.map(item => (
-            <a key={item} href={item === 'Apps' ? '#musiqflow-app' : `#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+            <a key={item.name} href={item.href} onClick={() => setMenuOpen(false)}
               style={{ color: 'var(--text2)', textDecoration: 'none', fontSize: '1rem', fontWeight: 500, padding: '8px 0', borderBottom: '1px solid var(--border)' }}>
-              {item}
+              {item.name}
             </a>
           ))}
           <a href="/admin" onClick={() => setMenuOpen(false)}

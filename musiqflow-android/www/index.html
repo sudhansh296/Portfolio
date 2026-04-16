@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#0d0d1a"/>
+<title>🎵 Music Player</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="bg">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<div id="connBar" class="conn-bar" style="display:none"></div>
+
+<div class="layout">
+
+  <!-- LEFT: Search + Results -->
+  <div class="left-panel">
+    <div class="brand">
+      <span class="brand-icon">♫</span>
+      <span class="brand-text">Musiq<span class="brand-accent">Flow</span></span>
+      <button class="settings-btn" id="settingsBtn" title="Server settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+    <div class="search-outer">
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Search songs, artists..." autocomplete="off"/>
+      <button id="searchBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+    </div>
+    <div class="search-hint">Enter music or artist name you want to listen to</div>
+    <div class="results-label" id="resultsLabel" style="display:none">Results</div>
+    <div class="results" id="results">
+      <div class="empty-state">
+        <div class="empty-icon">🎶</div>
+        <div class="empty-text">Search for any song to get started</div>
+      </div>
+    </div>
+    <div id="dlResults" style="display:none"></div>
+  </div>
+
+  <!-- RIGHT: Player / Idle -->
+  <div class="right-panel" id="rightPanel">
+
+    <div class="idle-state" id="idleState">
+      <div class="idle-main">
+
+        <!-- Artists -->
+        <div class="idle-artists">
+          <div class="artist-search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".4"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="artistSearch" placeholder="Search artist..." autocomplete="off"/>
+          </div>
+          <div class="idle-title">🇮🇳 Indian Artists</div>
+          <div class="artist-grid">
+            <div class="artist-card" onclick="quickSearch('Arijit Singh')"><img id="artist-arijit" src="https://ui-avatars.com/api/?name=Arijit+Singh&background=7c3aed&color=fff&size=120&bold=true" alt="Arijit Singh"/><span>Arijit Singh</span></div>
+            <div class="artist-card" onclick="quickSearch('Shreya Ghoshal')"><img id="artist-shreya" src="https://ui-avatars.com/api/?name=Shreya+Ghoshal&background=db2777&color=fff&size=120&bold=true" alt="Shreya Ghoshal"/><span>Shreya Ghoshal</span></div>
+            <div class="artist-card" onclick="quickSearch('AP Dhillon')"><img id="artist-ap" src="https://ui-avatars.com/api/?name=AP+Dhillon&background=0369a1&color=fff&size=120&bold=true" alt="AP Dhillon"/><span>AP Dhillon</span></div>
+            <div class="artist-card" onclick="quickSearch('Diljit Dosanjh')"><img id="artist-diljit" src="https://ui-avatars.com/api/?name=Diljit+Dosanjh&background=be185d&color=fff&size=120&bold=true" alt="Diljit Dosanjh"/><span>Diljit Dosanjh</span></div>
+            <div class="artist-card" onclick="quickSearch('Jubin Nautiyal')"><img id="artist-jubin" src="https://ui-avatars.com/api/?name=Jubin+Nautiyal&background=6d28d9&color=fff&size=120&bold=true" alt="Jubin Nautiyal"/><span>Jubin Nautiyal</span></div>
+            <div class="artist-card" onclick="quickSearch('Neha Kakkar')"><img id="artist-neha" src="https://ui-avatars.com/api/?name=Neha+Kakkar&background=9d174d&color=fff&size=120&bold=true" alt="Neha Kakkar"/><span>Neha Kakkar</span></div>
+            <div class="artist-card" onclick="quickSearch('Atif Aslam')"><img id="artist-atif" src="https://ui-avatars.com/api/?name=Atif+Aslam&background=1d4ed8&color=fff&size=120&bold=true" alt="Atif Aslam"/><span>Atif Aslam</span></div>
+            <div class="artist-card" onclick="quickSearch('Badshah')"><img id="artist-badshah" src="https://ui-avatars.com/api/?name=Badshah&background=b45309&color=fff&size=120&bold=true" alt="Badshah"/><span>Badshah</span></div>
+            <div class="artist-card" onclick="quickSearch('Armaan Malik')"><img id="artist-armaan" src="https://ui-avatars.com/api/?name=Armaan+Malik&background=0f766e&color=fff&size=120&bold=true" alt="Armaan Malik"/><span>Armaan Malik</span></div>
+            <div class="artist-card" onclick="quickSearch('Guru Randhawa')"><img id="artist-guru" src="https://ui-avatars.com/api/?name=Guru+Randhawa&background=7e22ce&color=fff&size=120&bold=true" alt="Guru Randhawa"/><span>Guru Randhawa</span></div>
+            <div class="artist-card" onclick="quickSearch('Darshan Raval')"><img id="artist-darshan" src="https://ui-avatars.com/api/?name=Darshan+Raval&background=b91c1c&color=fff&size=120&bold=true" alt="Darshan Raval"/><span>Darshan Raval</span></div>
+            <div class="artist-card" onclick="quickSearch('Vishal Mishra')"><img id="artist-vishal" src="https://ui-avatars.com/api/?name=Vishal+Mishra&background=065f46&color=fff&size=120&bold=true" alt="Vishal Mishra"/><span>Vishal Mishra</span></div>
+          </div>
+
+          <div class="idle-title" style="margin-top:14px">🌍 International Artists</div>
+          <div class="artist-grid">
+            <div class="artist-card" onclick="quickSearch('The Weeknd')"><img id="artist-weeknd" src="https://ui-avatars.com/api/?name=The+Weeknd&background=7c3aed&color=fff&size=120&bold=true" alt="The Weeknd"/><span>The Weeknd</span></div>
+            <div class="artist-card" onclick="quickSearch('Ed Sheeran')"><img id="artist-ed" src="https://ui-avatars.com/api/?name=Ed+Sheeran&background=db2777&color=fff&size=120&bold=true" alt="Ed Sheeran"/><span>Ed Sheeran</span></div>
+            <div class="artist-card" onclick="quickSearch('Taylor Swift')"><img id="artist-taylor" src="https://ui-avatars.com/api/?name=Taylor+Swift&background=0369a1&color=fff&size=120&bold=true" alt="Taylor Swift"/><span>Taylor Swift</span></div>
+            <div class="artist-card" onclick="quickSearch('Drake')"><img id="artist-drake" src="https://ui-avatars.com/api/?name=Drake&background=be185d&color=fff&size=120&bold=true" alt="Drake"/><span>Drake</span></div>
+            <div class="artist-card" onclick="quickSearch('Billie Eilish')"><img id="artist-billie" src="https://ui-avatars.com/api/?name=Billie+Eilish&background=6d28d9&color=fff&size=120&bold=true" alt="Billie Eilish"/><span>Billie Eilish</span></div>
+            <div class="artist-card" onclick="quickSearch('Bruno Mars')"><img id="artist-bruno" src="https://ui-avatars.com/api/?name=Bruno+Mars&background=9d174d&color=fff&size=120&bold=true" alt="Bruno Mars"/><span>Bruno Mars</span></div>
+            <div class="artist-card" onclick="quickSearch('Eminem')"><img id="artist-eminem" src="https://ui-avatars.com/api/?name=Eminem&background=1d4ed8&color=fff&size=120&bold=true" alt="Eminem"/><span>Eminem</span></div>
+            <div class="artist-card" onclick="quickSearch('Coldplay')"><img id="artist-coldplay" src="https://ui-avatars.com/api/?name=Coldplay&background=b45309&color=fff&size=120&bold=true" alt="Coldplay"/><span>Coldplay</span></div>
+            <div class="artist-card" onclick="quickSearch('Justin Bieber')"><img id="artist-justin" src="https://ui-avatars.com/api/?name=Justin+Bieber&background=0f766e&color=fff&size=120&bold=true" alt="Justin Bieber"/><span>Justin Bieber</span></div>
+            <div class="artist-card" onclick="quickSearch('Ariana Grande')"><img id="artist-ariana" src="https://ui-avatars.com/api/?name=Ariana+Grande&background=7e22ce&color=fff&size=120&bold=true" alt="Ariana Grande"/><span>Ariana Grande</span></div>
+            <div class="artist-card" onclick="quickSearch('Post Malone')"><img id="artist-post" src="https://ui-avatars.com/api/?name=Post+Malone&background=b91c1c&color=fff&size=120&bold=true" alt="Post Malone"/><span>Post Malone</span></div>
+            <div class="artist-card" onclick="quickSearch('Dua Lipa')"><img id="artist-dua" src="https://ui-avatars.com/api/?name=Dua+Lipa&background=065f46&color=fff&size=120&bold=true" alt="Dua Lipa"/><span>Dua Lipa</span></div>
+          </div>
+
+          <!-- Playlist Section -->
+          <a href="playlist.html" class="dl-section-btn" style="margin-top:14px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            My Playlist
+            <span id="plCountBadge" style="margin-left:auto;background:rgba(124,58,237,.3);border-radius:20px;padding:2px 8px;font-size:.72rem;display:none"></span>
+          </a>
+
+          <a href="download.html" class="dl-section-btn" style="margin-top:6px;--c1:#0369a1;background:rgba(3,105,161,.1);border-color:rgba(3,105,161,.25);color:#7dd3fc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Offline Music
+          </a>
+
+
+
+          <!-- Social Footer -->
+          <div class="social-footer">
+            <a href="https://t.me/free_telegram_bots_mod" class="social-btn" target="_blank" style="--sc:#229ED9">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="color:#229ED9"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.48 14.697l-2.95-.924c-.64-.203-.654-.64.136-.948l11.527-4.443c.537-.194 1.006.131.37.866z"/></svg>
+              Telegram
+            </a>
+            <a href="https://www.instagram.com/coder_lobby?igsh=MTlwOWUwdXVla3M1cg==" class="social-btn" target="_blank" style="--sc:#E1306C">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="color:#E1306C"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+              Instagram
+            </a>
+            <a href="https://youtube.com/@coder_lobby?si=DlaQZR4b6yxHIbYW" class="social-btn" target="_blank" style="--sc:#FF0000">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="color:#FF0000"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+              YouTube
+            </a>
+          </div>
+
+        </div><!-- /idle-artists -->
+
+        <!-- Language Sidebar -->
+        <div class="lang-sidebar">
+          <div class="lang-label">🎵 Languages</div>
+          <div class="lang-search-wrap">
+            <input type="text" id="langSearch" placeholder="Search language..." autocomplete="off"/>
+          </div>
+          <div class="lang-list" id="langList">
+            <button class="lang-btn" style="--c1:#7c3aed" onclick="langSearch('Hindi')">🇮🇳 Hindi</button>
+            <button class="lang-btn" style="--c1:#db2777" onclick="langSearch('Punjabi')">🎺 Punjabi</button>
+            <button class="lang-btn" style="--c1:#b45309" onclick="langSearch('Bhojpuri')">🪘 Bhojpuri</button>
+            <button class="lang-btn" style="--c1:#b91c1c" onclick="langSearch('Rajasthani')">🏜️ Rajasthani</button>
+            <button class="lang-btn" style="--c1:#065f46" onclick="langSearch('Haryanvi')">🌾 Haryanvi</button>
+            <button class="lang-btn" style="--c1:#0369a1" onclick="langSearch('Tamil')">🌴 Tamil</button>
+            <button class="lang-btn" style="--c1:#6d28d9" onclick="langSearch('Telugu')">🎭 Telugu</button>
+            <button class="lang-btn" style="--c1:#9d174d" onclick="langSearch('Kannada')">🏛️ Kannada</button>
+            <button class="lang-btn" style="--c1:#0f766e" onclick="langSearch('Malayalam')">🌊 Malayalam</button>
+            <button class="lang-btn" style="--c1:#7e22ce" onclick="langSearch('Marathi')">🥁 Marathi</button>
+            <button class="lang-btn" style="--c1:#1d4ed8" onclick="langSearch('Gujarati')">🪁 Gujarati</button>
+            <button class="lang-btn" style="--c1:#be185d" onclick="langSearch('Bengali')">🎶 Bengali</button>
+            <button class="lang-btn" style="--c1:#374151" onclick="langSearch('English')">🌍 English</button>
+            <button class="lang-btn" style="--c1:#be123c" onclick="langSearch('K-Pop')">🇰🇷 K-Pop</button>
+          </div>
+        </div><!-- /lang-sidebar -->
+
+      </div><!-- /idle-main -->
+    </div><!-- /idle-state -->
+
+    <div class="player" id="player" style="display:none">
+      <button class="player-back-btn" id="playerBackBtn" onclick="closePlayer()" title="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="art-wrap">
+        <div class="disc" id="disc">
+          <img id="discImg" src="" alt="" style="display:none"/>
+          <span id="discIcon">♪</span>
+        </div>
+        <div class="art-glow" id="artGlow"></div>
+      </div>
+      <div class="song-meta">
+        <div class="s-title" id="sTitle">—</div>
+        <div class="s-artist" id="sArtist">—</div>
+      </div>
+      <div class="lbox">
+        <div class="linner" id="linner">
+          <div class="lhint">🎵 Loading lyrics...</div>
+        </div>
+      </div>
+      <div class="prow">
+        <span class="ptime" id="cur">0:00</span>
+        <div class="pbar" id="pbar">
+          <div class="pfill" id="pfill"></div>
+          <div class="pthumb" id="pthumb"></div>
+        </div>
+        <span class="ptime" id="dur">0:00</span>
+      </div>
+      <div class="controls">
+        <button class="ctrl" id="prevBtn" title="−10s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+        </button>
+        <button class="ctrl play-ctrl" id="playBtn">
+          <svg id="playIcon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pauseIcon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="ctrl" id="nextBtn" title="+10s">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>
+        </button>
+        <button class="ctrl dl-player-btn" id="dlCurrentBtn" title="Download this song">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+      </div>
+      <div class="bottom-row">
+        <div class="vol-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" opacity=".5"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          <input type="range" id="vol" min="0" max="100" value="80"/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" opacity=".5"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        </div>
+        <div class="offset-wrap" id="offsetRow" style="display:none">
+          <button class="obtn" id="offMinus">−</button>
+          <span class="oval" id="offVal">0.0s</span>
+          <button class="obtn" id="offPlus">+</button>
+          <button class="obtn" id="tapSync" title="Tap when you hear the highlighted line">🎯</button>
+        </div>
+      </div>
+      <div class="status" id="status"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Welcome Popup ── -->
+<div id="welcomeOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px">
+  <div style="background:linear-gradient(145deg,#1a1a2e,#16213e);border:1px solid rgba(124,58,237,.4);border-radius:20px;max-width:340px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 0 40px rgba(124,58,237,.3)">
+    <!-- Robot Logo -->
+    <div style="width:90px;height:90px;margin:0 auto 14px;border-radius:50%;overflow:hidden;border:3px solid rgba(124,58,237,.5);background:#ff8c00;display:flex;align-items:center;justify-content:center">
+      <img id="welcomeRobotImg" src="robot.png" alt="Robot" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none';document.getElementById('welcomeRobotFallback').style.display='block'"/>
+      <span id="welcomeRobotFallback" style="display:none;font-size:48px">🤖</span>
+    </div>
+    <div style="font-size:1.2rem;font-weight:700;color:#e2e8f0;margin-bottom:6px">Welcome to MusiqFlow!</div>
+    <div style="font-size:.82rem;color:#94a3b8;margin-bottom:18px;line-height:1.5">Support us by following on all platforms to unlock the app 🎵</div>
+
+    <!-- Social Buttons -->
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <a id="wp-yt" href="https://youtube.com/@coder_lobby?si=DlaQZR4b6yxHIbYW" target="_blank"
+        onclick="wpMark('yt')"
+        style="display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:12px;background:rgba(255,0,0,.12);border:1px solid rgba(255,0,0,.3);color:#f87171;text-decoration:none;font-size:.88rem;font-weight:600;transition:all .2s">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        Subscribe on YouTube <span id="wp-yt-check" style="margin-left:auto;display:none">✅</span>
+      </a>
+      <a id="wp-ig" href="https://www.instagram.com/coder_lobby?igsh=MTlwOWUwdXVla3M1cg==" target="_blank"
+        onclick="wpMark('ig')"
+        style="display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:12px;background:rgba(225,48,108,.12);border:1px solid rgba(225,48,108,.3);color:#f472b6;text-decoration:none;font-size:.88rem;font-weight:600;transition:all .2s">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        Follow on Instagram <span id="wp-ig-check" style="margin-left:auto;display:none">✅</span>
+      </a>
+      <a id="wp-tg" href="https://t.me/free_telegram_bots_mod" target="_blank"
+        onclick="wpMark('tg')"
+        style="display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:12px;background:rgba(34,158,217,.12);border:1px solid rgba(34,158,217,.3);color:#7dd3fc;text-decoration:none;font-size:.88rem;font-weight:600;transition:all .2s">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.48 14.697l-2.95-.924c-.64-.203-.654-.64.136-.948l11.527-4.443c.537-.194 1.006.131.37.866z"/></svg>
+        Join Telegram <span id="wp-tg-check" style="margin-left:auto;display:none">✅</span>
+      </a>
+    </div>
+
+    <button id="wpContinueBtn" onclick="wpClose()" disabled
+      style="width:100%;padding:13px;border-radius:12px;border:none;background:#374151;color:#6b7280;font-size:.95rem;font-weight:700;cursor:not-allowed;transition:all .3s">
+      Continue →
+    </button>
+    <div style="font-size:.72rem;color:#4b5563;margin-top:10px">Click all 3 links above to continue</div>
+  </div>
+</div>
+
+<audio id="ap"></audio>
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script>
+// ── Welcome Popup Logic ───────────────────────────────────────────────────────
+(function() {
+  var KEY_OPENS = 'mf_welcome_opens';
+  var KEY_DONE  = 'mf_welcome_done';
+  var MAX_SHOWS = 1;
+
+  var opens = parseInt(localStorage.getItem(KEY_OPENS) || '0', 10);
+  var done  = localStorage.getItem(KEY_DONE) === '1';
+
+  if (!done && opens < MAX_SHOWS) {
+    localStorage.setItem(KEY_OPENS, opens + 1);
+    document.getElementById('welcomeOverlay').style.display = 'flex';
+  } else {
+    document.getElementById('welcomeOverlay').style.display = 'none';
+  }
+
+  var wpState = { yt: false, ig: false, tg: false };
+
+  window.wpMark = function(key) {
+    wpState[key] = true;
+    var el = document.getElementById('wp-' + key + '-check');
+    if (el) el.style.display = 'inline';
+    if (wpState.yt && wpState.ig && wpState.tg) {
+      var btn = document.getElementById('wpContinueBtn');
+      btn.disabled = false;
+      btn.style.background = 'linear-gradient(135deg,#7c3aed,#a855f7)';
+      btn.style.color = '#fff';
+      btn.style.cursor = 'pointer';
+    }
+  };
+
+  window.wpClose = function() {
+    localStorage.setItem(KEY_DONE, '1');
+    document.getElementById('welcomeOverlay').style.display = 'none';
+  };
+})();
+</script>
+<script>
+// ── Media Session API — background playback controls ─────────────────────────
+function updateMediaSession(item) {
+  if (!('mediaSession' in navigator)) return;
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title:  item.trackName  || 'Unknown',
+    artist: item.artistName || 'Unknown',
+    album:  item.collectionName || 'MusiqFlow',
+    artwork: item.artworkUrl100 ? [
+      { src: item.artworkUrl100.replace('100x100','300x300'), sizes:'300x300', type:'image/jpeg' },
+      { src: item.artworkUrl100.replace('100x100','600x600'), sizes:'600x600', type:'image/jpeg' }
+    ] : []
+  });
+  navigator.mediaSession.setActionHandler('play',     function() { document.getElementById('ap').play().catch(function(){}); });
+  navigator.mediaSession.setActionHandler('pause',    function() { document.getElementById('ap').pause(); });
+  navigator.mediaSession.setActionHandler('seekbackward', function() { var a=document.getElementById('ap'); a.currentTime=Math.max(0,a.currentTime-10); });
+  navigator.mediaSession.setActionHandler('seekforward',  function() { var a=document.getElementById('ap'); if(a.duration) a.currentTime=Math.min(a.currentTime+10,a.duration); });
+  navigator.mediaSession.setActionHandler('previoustrack', function() {
+    if (!window.searchResults || !window.searchResults.length || !window.currentItem) return;
+    var idx = window.searchResults.indexOf(window.currentItem);
+    var prev = window.searchResults[(idx - 1 + window.searchResults.length) % window.searchResults.length];
+    if (prev) window.playSong(prev);
+  });
+  navigator.mediaSession.setActionHandler('nexttrack', function() {
+    if (!window.searchResults || !window.searchResults.length || !window.currentItem) return;
+    var idx = window.searchResults.indexOf(window.currentItem);
+    var next = window.searchResults[(idx + 1) % window.searchResults.length];
+    if (next) window.playSong(next);
+  });
+}
+
+// Hook into playSong to update media session
+var _origPlaySong = window.playSong;
+window.playSong = function(item) {
+  _origPlaySong(item);
+  updateMediaSession(item);
+};
+
+// Keep audio alive in background (Android WebView)
+document.getElementById('ap').addEventListener('play', function() {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.playbackState = 'playing';
+  }
+});
+document.getElementById('ap').addEventListener('pause', function() {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.playbackState = 'paused';
+  }
+});
+
+// ── Android Hardware Back Button ──────────────────────────────────────────────
+document.addEventListener('deviceready', function() {
+  document.addEventListener('backbutton', function(e) {
+    e.preventDefault();
+    var player = document.getElementById('player');
+    var suggBox = document.getElementById('suggBox');
+    if (suggBox) {
+      // close suggestions
+      suggBox.remove();
+    } else if (player && player.style.display !== 'none') {
+      // close player, go back to idle
+      if (typeof closePlayer === 'function') closePlayer();
+    }
+    // else: do nothing (don't exit app)
+  }, false);
+}, false);
+
+// Capacitor App plugin back button (for newer Capacitor)
+if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+  window.Capacitor.Plugins.App.addListener('backButton', function() {
+    var player = document.getElementById('player');
+    if (player && player.style.display !== 'none') {
+      if (typeof closePlayer === 'function') closePlayer();
+    }
+  });
+}
+</script>
+</body>
+</html>

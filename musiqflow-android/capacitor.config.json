@@ -1,0 +1,21 @@
+{
+  "appId": "com.musiqflow.app",
+  "appName": "MusiqFlow",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true,
+    "backgroundColor": "#0d0d1a",
+    "overrideUserAgent": "MusiqFlow/1.0 Android"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "backgroundColor": "#0d0d1a",
+      "showSpinner": false
+    }
+  }
+}

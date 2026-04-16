@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MusiqFlow</string>
+    <string name="title_activity_main">MusiqFlow</string>
+    <string name="package_name">com.musiqflow.app</string>
+    <string name="custom_url_scheme">com.musiqflow.app</string>
+</resources>

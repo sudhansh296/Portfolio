@@ -1,0 +1,389 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="theme-color" content="#0d0d1a"/>
+<title>Download Music - MusiqFlow</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:#0d0d1a;font-family:'Segoe UI',system-ui,sans-serif;color:#fff}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.22;animation:float 10s ease-in-out infinite}
+.b1{width:500px;height:500px;background:#6d28d9;top:-150px;left:-100px}
+.b2{width:400px;height:400px;background:#be185d;bottom:-100px;right:-80px;animation-delay:4s}
+.b3{width:350px;height:350px;background:#0369a1;top:40%;left:30%;animation-delay:7s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
+.page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:16px 14px 90px}
+.nav{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);border-radius:10px;padding:8px 14px;font-size:.82rem;text-decoration:none;transition:all .18s;cursor:pointer}
+.back-btn:hover{background:rgba(124,58,237,.2);color:#fff;border-color:#7c3aed}
+.brand-text{font-size:1.2rem;font-weight:900;letter-spacing:-1px}
+.brand-accent{background:linear-gradient(135deg,#a78bfa,#f472b6,#38bdf8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero h1{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.hero p{color:rgba(255,255,255,.35);font-size:.82rem;margin-bottom:16px}
+.sw{display:flex;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:4px 4px 4px 14px;transition:border-color .2s;margin-bottom:16px}
+.sw:focus-within{border-color:#7c3aed}
+.sw input{flex:1;background:none;border:none;outline:none;color:#fff;font-size:.92rem}
+.sw input::placeholder{color:rgba(255,255,255,.3)}
+.sw button{background:linear-gradient(135deg,#7c3aed,#db2777);border:none;color:#fff;padding:0 18px;height:40px;border-radius:10px;cursor:pointer;font-size:.85rem;font-weight:600}
+.rlabel{font-size:.68rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.3);margin-bottom:8px;display:none}
+.ri{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:10px 12px;margin-bottom:6px}
+.rthumb{width:44px;height:44px;border-radius:8px;object-fit:cover;background:rgba(255,255,255,.05);flex-shrink:0}
+.rinfo{flex:1;min-width:0}
+.rtitle{font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rartist{font-size:.72rem;color:rgba(255,255,255,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.rdur{font-size:.7rem;color:rgba(255,255,255,.25);flex-shrink:0}
+.dl-btn{display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#7c3aed,#db2777);border:none;color:#fff;border-radius:9px;padding:8px 12px;font-size:.75rem;font-weight:600;cursor:pointer;flex-shrink:0;transition:all .2s;white-space:nowrap}
+.dl-btn:disabled{background:rgba(255,255,255,.1);cursor:not-allowed}
+.dl-btn.done{background:linear-gradient(135deg,#059669,#10b981)}
+.msg{color:rgba(255,255,255,.35);text-align:center;padding:30px;font-size:.85rem}
+.dl-status{font-size:.7rem;color:#a78bfa;margin-top:2px;min-height:13px;padding:0 2px 5px}
+.sec-title{font-size:.62rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin:24px 0 10px 2px}
+</style>
+</head>
+<body>
+<div class="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="page">
+  <div class="nav">
+    <a class="back-btn" onclick="history.back();return false;" href="#">&#8592; Back</a>
+    <span class="brand-text">Musiq<span class="brand-accent">Flow</span></span>
+  </div>
+  <div class="hero">
+    <h1>&#11015;&#65039; Download Music</h1>
+    <p>Search karo, save karo — offline bhi chalega</p>
+  </div>
+  <div class="sw">
+    <input type="text" id="si" placeholder="Search songs, artists..." autocomplete="off"/>
+    <button id="sb">Search</button>
+  </div>
+  <div class="rlabel" id="rl"></div>
+  <div id="res"><div class="msg">Koi bhi song search karo aur save karo...</div></div>
+  <div id="dlSection" style="display:none">
+    <div class="sec-title" id="dlTitle">&#128190; Saved Songs</div>
+    <div id="dlList"></div>
+  </div>
+</div>
+
+<!-- Mini Player -->
+<style>
+.dl-item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:all .15s}
+.dl-item:hover,.dl-item:active{background:rgba(124,58,237,.12);border-color:rgba(124,58,237,.3)}
+.dl-item.playing{background:rgba(124,58,237,.2);border-color:rgba(124,58,237,.5)}
+.offline-badge{font-size:.6rem;background:rgba(5,150,105,.2);color:#6ee7b7;border:1px solid rgba(5,150,105,.3);border-radius:6px;padding:2px 5px;flex-shrink:0}
+.dl-play-btn{background:linear-gradient(135deg,#7c3aed,#db2777);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dl-del-btn{background:none;border:none;color:rgba(255,255,255,.2);font-size:1.1rem;cursor:pointer;padding:4px 6px;border-radius:6px;flex-shrink:0;transition:color .15s}
+.dl-del-btn:hover{color:#f87171}
+.mini-player{position:fixed;bottom:0;left:0;right:0;background:rgba(13,13,26,.97);border-top:1px solid rgba(124,58,237,.3);backdrop-filter:blur(20px);padding:10px 16px;display:none;align-items:center;gap:12px;z-index:100}
+.mini-player.visible{display:flex}
+.mp-prog{position:absolute;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.08)}
+.mp-pfill{height:100%;background:linear-gradient(90deg,#7c3aed,#db2777);width:0%}
+.mp-thumb{width:38px;height:38px;border-radius:7px;object-fit:cover;flex-shrink:0;background:rgba(255,255,255,.05)}
+.mp-info{flex:1;min-width:0}
+.mp-title{font-size:.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-artist{font-size:.7rem;color:rgba(255,255,255,.4)}
+.mp-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.mp-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.mp-play{width:44px;height:44px;background:linear-gradient(135deg,#7c3aed,#db2777);border:none;box-shadow:0 2px 12px rgba(124,58,237,.5)}
+</style>
+<div class="mini-player" id="miniPlayer">
+  <div class="mp-prog"><div class="mp-pfill" id="mpFill"></div></div>
+  <img class="mp-thumb" id="mpThumb" src="" alt=""/>
+  <div class="mp-info">
+    <div class="mp-title" id="mpTitle">—</div>
+    <div class="mp-artist" id="mpArtist">—</div>
+  </div>
+  <div class="mp-controls">
+    <button class="mp-btn mp-play" id="mpPlay">
+      <svg id="mpPlayIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <svg id="mpPauseIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    <button class="mp-btn" id="mpClose">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+</div>
+<audio id="ap"></audio>
+
+<!-- Subscribe Popup -->
+<style>
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.popup-box{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(124,58,237,.4);border-radius:24px;padding:28px 22px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.popup-icon{font-size:2.8rem;margin-bottom:10px}
+.popup-title{font-size:1.2rem;font-weight:900;margin-bottom:6px;background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.popup-sub{font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:22px;line-height:1.5}
+.popup-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.popup-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;border-radius:14px;font-size:.88rem;font-weight:700;text-decoration:none;border:none;cursor:pointer;transition:all .2s;color:#fff}
+.popup-btn.yt{background:linear-gradient(135deg,#ff0000,#cc0000)}
+.popup-btn.ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)}
+.popup-btn.tg{background:linear-gradient(135deg,#0088cc,#006699)}
+.popup-btn:hover{transform:scale(1.03);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.popup-btn.done{opacity:.5;pointer-events:none}
+.popup-btn.done::after{content:' ✓'}
+.popup-dismiss{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);border-radius:12px;padding:10px 20px;font-size:.8rem;cursor:pointer;width:100%;transition:all .2s;font-weight:600}
+.popup-dismiss:hover{background:rgba(255,255,255,.12);color:#fff}
+.popup-note{font-size:.68rem;color:rgba(255,255,255,.25);margin-top:10px}
+</style>
+
+<div class="popup-overlay" id="subPopup" style="display:none">
+  <div class="popup-box">
+    <div class="popup-icon">🎵</div>
+    <div class="popup-title">Offline Music Unlock Karo!</div>
+    <div class="popup-sub">Songs save karne ke liye humein support karo — YouTube, Instagram aur Telegram pe follow karo</div>
+    <div class="popup-btns">
+      <a href="https://youtube.com/@coder_lobby?si=DlaQZR4b6yxHIbYW" target="_blank" class="popup-btn yt" id="btnYt" onclick="markDone(this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        Subscribe on YouTube
+      </a>
+      <a href="https://www.instagram.com/coder_lobby?igsh=MTlwOWUwdXVla3M1cg==" target="_blank" class="popup-btn ig" id="btnIg" onclick="markDone(this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        Follow on Instagram
+      </a>
+      <a href="https://t.me/free_telegram_bots_mod" target="_blank" class="popup-btn tg" id="btnTg" onclick="markDone(this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.48 14.697l-2.95-.924c-.64-.203-.654-.64.136-.948l11.527-4.443c.537-.194 1.006.131.37.866z"/></svg>
+        Join Telegram
+      </a>
+    </div>
+    <button class="popup-dismiss" id="popupDismiss" disabled style="opacity:.35;cursor:not-allowed">Pehle teeno ko subscribe karo ↑</button>
+    <div class="popup-note">Teeno subscribe karne ke baad continue button active hoga</div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+var ap=document.getElementById('ap'), currentBlobUrl=null;
+function fmt(s){s=s||0;return Math.floor(s/60)+':'+('0'+Math.floor(s%60)).slice(-2);}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── IndexedDB (same DB as main player) ───────────────────────────────────────
+var DL_DB=null;
+function openDlDB(cb){
+  if(DL_DB){cb(DL_DB);return;}
+  var req=indexedDB.open('musiqflow_dl',1);
+  req.onupgradeneeded=function(e){e.target.result.createObjectStore('songs',{keyPath:'id',autoIncrement:true});};
+  req.onsuccess=function(e){DL_DB=e.target.result;cb(DL_DB);};
+  req.onerror=function(){cb(null);};
+}
+function getAllDlSongs(cb){
+  openDlDB(function(d){
+    if(!d){cb([]);return;}
+    var tx=d.transaction('songs','readonly');
+    var req=tx.objectStore('songs').getAll();
+    req.onsuccess=function(){cb((req.result||[]).reverse());};
+    req.onerror=function(){cb([]);};
+  });
+}
+function saveDlSong(data,cb){
+  openDlDB(function(d){
+    if(!d){cb&&cb();return;}
+    // Check duplicate
+    var tx=d.transaction('songs','readonly');
+    var req=tx.objectStore('songs').getAll();
+    req.onsuccess=function(){
+      var exists=(req.result||[]).some(function(s){
+        return s.trackName===data.trackName && s.artistName===data.artistName;
+      });
+      if(exists){cb&&cb();return;}
+      var tx2=d.transaction('songs','readwrite');
+      tx2.objectStore('songs').add(data);
+      tx2.oncomplete=function(){cb&&cb();};
+    };
+  });
+}
+function deleteDlSong(id,cb){
+  openDlDB(function(d){
+    if(!d){cb&&cb();return;}
+    var tx=d.transaction('songs','readwrite');
+    tx.objectStore('songs').delete(typeof id==='string'?parseInt(id,10):id);
+    tx.oncomplete=function(){cb&&cb();};
+    tx.onerror=function(){cb&&cb();};
+  });
+}
+
+// ── Render Saved Songs ────────────────────────────────────────────────────────
+function renderDlSongs(){
+  getAllDlSongs(function(songs){
+    var sec=document.getElementById('dlSection');
+    var list=document.getElementById('dlList');
+    var title=document.getElementById('dlTitle');
+    if(!songs.length){sec.style.display='none';return;}
+    sec.style.display='block';
+    title.textContent='📁 Saved Songs ('+songs.length+')';
+    list.innerHTML='';
+    songs.forEach(function(song){
+      var div=document.createElement('div');
+      div.className='dl-item';
+      div.innerHTML=
+        '<img class="rthumb" src="'+esc(song.artworkUrl||'')+'" onerror="this.style.display=\'none\'">' +
+        '<div class="rinfo"><div class="rtitle">'+esc(song.trackName||'')+'</div>' +
+        '<div class="rartist">'+esc(song.artistName||'')+'</div></div>' +
+        '<span class="offline-badge">Offline</span>' +
+        '<span class="rdur">'+fmt(song.duration||0)+'</span>';
+      var playBtn=document.createElement('button');
+      playBtn.className='dl-play-btn';
+      playBtn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+      playBtn.addEventListener('click',function(e){e.stopPropagation();playOffline(song,div);});
+      var delBtn=document.createElement('button');
+      delBtn.className='dl-del-btn';
+      delBtn.textContent='×';
+      delBtn.addEventListener('click',function(e){
+        e.stopPropagation();
+        if(ap.src&&!ap.paused) ap.pause();
+        deleteDlSong(song.id,function(){renderDlSongs();});
+      });
+      div.appendChild(playBtn);
+      div.appendChild(delBtn);
+      div.addEventListener('click',function(){playOffline(song,div);});
+      list.appendChild(div);
+    });
+  });
+}
+
+// ── Offline Play ──────────────────────────────────────────────────────────────
+function playOffline(song,divEl){
+  if(!song.blob){alert('Blob nahi mila — dobara save karo');return;}
+  if(currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+  currentBlobUrl=URL.createObjectURL(song.blob);
+  document.querySelectorAll('.dl-item').forEach(function(el){el.classList.remove('playing');});
+  if(divEl) divEl.classList.add('playing');
+  document.getElementById('mpThumb').src=song.artworkUrl||'';
+  document.getElementById('mpTitle').textContent=song.trackName||'—';
+  document.getElementById('mpArtist').textContent=song.artistName||'—';
+  document.getElementById('miniPlayer').classList.add('visible');
+  ap.pause(); ap.src=currentBlobUrl; ap.load();
+  ap.play().catch(function(){});
+}
+
+// ── Mini Player Controls ──────────────────────────────────────────────────────
+ap.addEventListener('play',function(){document.getElementById('mpPlayIcon').style.display='none';document.getElementById('mpPauseIcon').style.display='block';});
+ap.addEventListener('pause',function(){document.getElementById('mpPlayIcon').style.display='block';document.getElementById('mpPauseIcon').style.display='none';});
+ap.addEventListener('timeupdate',function(){if(ap.duration)document.getElementById('mpFill').style.width=(ap.currentTime/ap.duration*100)+'%';});
+ap.addEventListener('ended',function(){document.getElementById('mpPlayIcon').style.display='block';document.getElementById('mpPauseIcon').style.display='none';document.getElementById('mpFill').style.width='0%';});
+document.getElementById('mpPlay').addEventListener('click',function(){ap.paused?ap.play().catch(function(){}):ap.pause();});
+document.getElementById('mpClose').addEventListener('click',function(){
+  ap.pause();
+  document.getElementById('miniPlayer').classList.remove('visible');
+  document.querySelectorAll('.dl-item').forEach(function(el){el.classList.remove('playing');});
+  if(currentBlobUrl){URL.revokeObjectURL(currentBlobUrl);currentBlobUrl=null;}
+});
+
+// ── Download (save to IndexedDB only, no file download) ───────────────────────
+function downloadSong(item,btn,statusEl){
+  btn.disabled=true;
+  btn.textContent='Saving...';
+  statusEl.textContent='Please wait...';
+  statusEl.style.color='#a78bfa';
+  var name=item.artistName+' - '+item.trackName;
+  var q=item.artistName+' '+item.trackName;
+  fetch(apiUrl('/download?q='+encodeURIComponent(q)+'&name='+encodeURIComponent(name)))
+    .then(function(r){if(!r.ok)throw new Error('Server error '+r.status);return r.blob();})
+    .then(function(blob){
+      // Save to IndexedDB only — no file download to phone storage
+      saveDlSong({
+        trackName:item.trackName||'',
+        artistName:item.artistName||'',
+        collectionName:item.collectionName||'',
+        artworkUrl:(item.artworkUrl100||'').replace('100x100','60x60'),
+        duration:Math.round((item.trackTimeMillis||0)/1000),
+        blob:blob,
+        savedAt:Date.now()
+      },function(){
+        renderDlSongs();
+        btn.textContent='✓ Saved';
+        btn.classList.add('done');
+        statusEl.textContent='✓ Offline ke liye save ho gaya!';
+        statusEl.style.color='#10b981';
+        setTimeout(function(){
+          btn.disabled=false;btn.textContent='⬇ Save';btn.classList.remove('done');
+          statusEl.textContent='';statusEl.style.color='';
+        },4000);
+      });
+    })
+    .catch(function(e){
+      btn.disabled=false;btn.textContent='⬇ Save';
+      statusEl.textContent='✗ Failed: '+e.message;
+      statusEl.style.color='#f87171';
+      setTimeout(function(){statusEl.textContent='';statusEl.style.color='';},4000);
+    });
+}
+
+// ── Search ────────────────────────────────────────────────────────────────────
+function doSearch(){
+  var q=document.getElementById('si').value.trim();
+  if(!q)return;
+  document.getElementById('res').innerHTML='<div class="msg">Searching...</div>';
+  document.getElementById('rl').style.display='none';
+  fetch(apiUrl('/search?q='+encodeURIComponent(q)))
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var items=(data.results||[]).filter(function(r){return r.kind==='song';}).slice(0,60);
+      if(!items.length){document.getElementById('res').innerHTML='<div class="msg">Koi result nahi mila.</div>';return;}
+      var rl=document.getElementById('rl');rl.style.display='block';rl.textContent='Results ('+items.length+')';
+      var el=document.getElementById('res');el.innerHTML='';
+      items.forEach(function(item){
+        var th=(item.artworkUrl100||'').replace('100x100','60x60');
+        var div=document.createElement('div');div.className='ri';
+        var statusEl=document.createElement('div');statusEl.className='dl-status';
+        div.innerHTML=
+          '<img class="rthumb" src="'+esc(th)+'" onerror="this.style.display=\'none\'">' +
+          '<div class="rinfo"><div class="rtitle">'+esc(item.trackName||'')+'</div>' +
+          '<div class="rartist">'+esc(item.artistName||'')+' — '+esc(item.collectionName||'')+'</div></div>' +
+          '<span class="rdur">'+fmt(Math.round((item.trackTimeMillis||0)/1000))+'</span>';
+        var btn=document.createElement('button');
+        btn.className='dl-btn';btn.textContent='⬇ Save';
+        btn.addEventListener('click',function(){downloadSong(item,btn,statusEl);});
+        div.appendChild(btn);
+        el.appendChild(div);
+        el.appendChild(statusEl);
+      });
+    })
+    .catch(function(){document.getElementById('res').innerHTML='<div class="msg">Search fail hua.</div>';});
+}
+document.getElementById('sb').addEventListener('click',doSearch);
+document.getElementById('si').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+
+// Android back button
+document.addEventListener('deviceready',function(){
+  document.addEventListener('backbutton',function(e){e.preventDefault();history.back();},false);
+},false);
+if(window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.App){
+  window.Capacitor.Plugins.App.addListener('backButton',function(){history.back();});
+}
+
+// ── Subscribe Popup — har baar app band hone pe reset, session mein ek baar ──
+function initPopup(){
+  // sessionStorage app band hone pe clear ho jaata hai automatically
+  var done = sessionStorage.getItem('mf_sub_done') === '1';
+  if(!done){
+    document.getElementById('subPopup').style.display = 'flex';
+  }
+}
+function markDone(el){
+  setTimeout(function(){
+    el.classList.add('done');
+    var allDone = ['btnYt','btnIg','btnTg'].every(function(id){
+      return document.getElementById(id).classList.contains('done');
+    });
+    if(allDone){
+      var btn = document.getElementById('popupDismiss');
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      btn.textContent = '✓ Continue — Thank You!';
+      btn.style.background = 'linear-gradient(135deg,#7c3aed,#db2777)';
+      btn.style.color = '#fff';
+      btn.style.border = 'none';
+    }
+  }, 300);
+}
+document.getElementById('popupDismiss').addEventListener('click', function(){
+  sessionStorage.setItem('mf_sub_done', '1');
+  document.getElementById('subPopup').style.display = 'none';
+});
+
+// Init
+initPopup();
+renderDlSongs();
+</script>
+</body>
+</html>

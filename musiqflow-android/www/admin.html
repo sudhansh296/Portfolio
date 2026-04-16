@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="theme-color" content="#0d0d1a"/>
+<title>Admin Panel — MusiqFlow</title>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height: 100vh;
+  background: #0d0d1a;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #fff;
+  padding-bottom: 40px;
+}
+.bg { position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+.blob { position:absolute; border-radius:50%; filter:blur(90px); opacity:.2; animation:float 10s ease-in-out infinite; }
+.b1 { width:500px;height:500px;background:#6d28d9;top:-150px;left:-100px; }
+.b2 { width:400px;height:400px;background:#be185d;bottom:-100px;right:-80px;animation-delay:4s; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+
+.page { position:relative; z-index:1; max-width:600px; margin:0 auto; padding:20px 16px; }
+
+/* Nav */
+.nav { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
+.back-btn {
+  display:flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.6); border-radius:10px; padding:8px 14px;
+  font-size:.82rem; cursor:pointer; text-decoration:none; transition:all .18s;
+}
+.back-btn:hover { background:rgba(124,58,237,.25); color:#fff; border-color:#7c3aed; }
+.nav-title { font-size:1.2rem; font-weight:800; }
+.nav-title span {
+  background:linear-gradient(135deg,#a78bfa,#f472b6);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+/* Status card */
+.status-card {
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px; padding:18px; margin-bottom:16px;
+}
+.status-card.online  { border-color:rgba(16,185,129,.4); background:rgba(16,185,129,.06); }
+.status-card.offline { border-color:rgba(239,68,68,.4);  background:rgba(239,68,68,.06); }
+.status-row { display:flex; align-items:center; gap:10px; }
+.status-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.dot-green { background:#10b981; box-shadow:0 0 8px #10b981; animation:pulse-dot 2s infinite; }
+.dot-red   { background:#ef4444; }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
+.status-label { font-size:.95rem; font-weight:700; }
+.status-url   { font-size:.75rem; color:rgba(255,255,255,.4); margin-top:4px; }
+.status-ping  { margin-left:auto; font-size:.72rem; color:rgba(255,255,255,.35); }
+
+/* Section */
+.section { margin-bottom:16px; }
+.section-title {
+  font-size:.65rem; font-weight:800; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(255,255,255,.3); margin-bottom:10px; padding-left:2px;
+}
+
+/* Card */
+.card {
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px; padding:16px;
+  display:flex; flex-direction:column; gap:12px;
+}
+
+/* Input row */
+.input-row { display:flex; gap:8px; align-items:center; }
+.input-row input {
+  flex:1; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+  border-radius:10px; padding:10px 14px; color:#fff; font-size:.88rem; outline:none;
+}
+.input-row input:focus { border-color:#7c3aed; }
+.btn {
+  background:linear-gradient(135deg,#7c3aed,#db2777);
+  border:none; color:#fff; border-radius:10px; padding:10px 18px;
+  font-size:.85rem; font-weight:700; cursor:pointer; white-space:nowrap;
+  transition:transform .15s;
+}
+.btn:hover { transform:scale(1.04); }
+.btn-sm {
+  background:rgba(124,58,237,.2); border:1px solid rgba(124,58,237,.35);
+  color:#c4b5fd; border-radius:8px; padding:7px 14px;
+  font-size:.78rem; font-weight:600; cursor:pointer; transition:all .18s;
+}
+.btn-sm:hover { background:rgba(124,58,237,.35); color:#fff; }
+.btn-danger {
+  background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.3);
+  color:#fca5a5; border-radius:8px; padding:7px 14px;
+  font-size:.78rem; font-weight:600; cursor:pointer; transition:all .18s;
+}
+.btn-danger:hover { background:rgba(239,68,68,.25); color:#fff; }
+
+/* Stats grid */
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.stat-box {
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07);
+  border-radius:12px; padding:14px; text-align:center;
+}
+.stat-num { font-size:1.6rem; font-weight:800; color:#a78bfa; }
+.stat-lbl { font-size:.7rem; color:rgba(255,255,255,.35); margin-top:3px; }
+
+/* Log */
+.log-box {
+  background:rgba(0,0,0,.4); border:1px solid rgba(255,255,255,.07);
+  border-radius:10px; padding:12px; font-size:.72rem; font-family:monospace;
+  color:rgba(255,255,255,.5); max-height:160px; overflow-y:auto;
+  line-height:1.7;
+}
+.log-box::-webkit-scrollbar { width:3px; }
+.log-box::-webkit-scrollbar-thumb { background:rgba(124,58,237,.4); border-radius:3px; }
+.log-line.ok  { color:#6ee7b7; }
+.log-line.err { color:#fca5a5; }
+.log-line.inf { color:#93c5fd; }
+
+/* Toast */
+.toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+  background:rgba(124,58,237,.95); color:#fff; border-radius:12px;
+  padding:10px 20px; font-size:.82rem; font-weight:600;
+  transition:transform .3s ease; z-index:999; white-space:nowrap;
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+
+/* Divider */
+.divider { height:1px; background:rgba(255,255,255,.06); margin:4px 0; }
+
+/* Row */
+.row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.row-label { font-size:.85rem; color:rgba(255,255,255,.6); }
+.row-val   { font-size:.82rem; color:#a78bfa; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="bg"><div class="blob b1"></div><div class="blob b2"></div></div>
+
+<div class="page">
+  <div class="nav">
+    <a href="#" class="back-btn" onclick="history.back(); return false;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </a>
+    <div class="nav-title">⚙️ <span>Admin Panel</span></div>
+  </div>
+
+  <!-- Server Status -->
+  <div class="section">
+    <div class="section-title">Server Status</div>
+    <div class="status-card" id="statusCard">
+      <div class="status-row">
+        <div class="status-dot" id="statusDot"></div>
+        <div>
+          <div class="status-label" id="statusLabel">Checking...</div>
+          <div class="status-url" id="statusUrl"></div>
+        </div>
+        <div class="status-ping" id="statusPing"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Server URL -->
+  <div class="section">
+    <div class="section-title">Server URL</div>
+    <div class="card">
+      <div class="input-row">
+        <input type="text" id="serverInput" placeholder="http://localhost:5500" autocomplete="off"/>
+        <button class="btn" onclick="saveServer()">Save</button>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-sm" onclick="setPreset('http://localhost:5500')">localhost</button>
+        <button class="btn-sm" onclick="setPreset('http://10.0.2.2:5500')">Emulator</button>
+        <button class="btn-sm" onclick="testConn()">Test Connection</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="section">
+    <div class="section-title">App Stats</div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-num" id="statDl">—</div>
+        <div class="stat-lbl">Downloaded Songs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="statPl">—</div>
+        <div class="stat-lbl">Playlist Songs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="statHist">—</div>
+        <div class="stat-lbl">Search History</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="statStorage">—</div>
+        <div class="stat-lbl">Storage Used</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cache & Data -->
+  <div class="section">
+    <div class="section-title">Cache & Data</div>
+    <div class="card">
+      <div class="row">
+        <span class="row-label">Search History</span>
+        <button class="btn-danger" onclick="clearHistory()">Clear</button>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <span class="row-label">Playlist</span>
+        <button class="btn-danger" onclick="clearPlaylist()">Clear</button>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <span class="row-label">Downloaded Songs (IndexedDB)</span>
+        <button class="btn-danger" onclick="clearDownloads()">Clear All</button>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <span class="row-label">All App Data</span>
+        <button class="btn-danger" onclick="clearAll()">Reset App</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connection Log -->
+  <div class="section">
+    <div class="section-title">Connection Log</div>
+    <div class="log-box" id="logBox">
+      <div class="log-line inf">Admin panel loaded.</div>
+    </div>
+  </div>
+
+  <!-- App Info -->
+  <div class="section">
+    <div class="section-title">App Info</div>
+    <div class="card">
+      <div class="row"><span class="row-label">App</span><span class="row-val">MusiqFlow</span></div>
+      <div class="divider"></div>
+      <div class="row"><span class="row-label">Version</span><span class="row-val">1.0.0</span></div>
+      <div class="divider"></div>
+      <div class="row"><span class="row-label">Server</span><span class="row-val" id="infoServer">—</span></div>
+      <div class="divider"></div>
+      <div class="row"><span class="row-label">Platform</span><span class="row-val">Android (Capacitor)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var SERVER_URL = localStorage.getItem('mf_server_url') || 'http://localhost:5500';
+
+// Init
+document.getElementById('serverInput').value = SERVER_URL;
+document.getElementById('infoServer').textContent = SERVER_URL;
+document.getElementById('statusUrl').textContent = SERVER_URL;
+
+loadStats();
+testConn();
+
+function log(msg, type) {
+  var box = document.getElementById('logBox');
+  var d = document.createElement('div');
+  d.className = 'log-line ' + (type || 'inf');
+  var t = new Date().toLocaleTimeString();
+  d.textContent = '[' + t + '] ' + msg;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+
+function toast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function() { el.classList.remove('show'); }, 2500);
+}
+
+function setPreset(url) {
+  document.getElementById('serverInput').value = url;
+}
+
+function saveServer() {
+  var val = document.getElementById('serverInput').value.trim();
+  if (!val) return;
+  if (!val.startsWith('http')) val = 'http://' + val;
+  SERVER_URL = val;
+  localStorage.setItem('mf_server_url', SERVER_URL);
+  document.getElementById('infoServer').textContent = SERVER_URL;
+  document.getElementById('statusUrl').textContent = SERVER_URL;
+  log('Server URL saved: ' + SERVER_URL, 'ok');
+  toast('✓ Saved! Testing connection...');
+  testConn();
+}
+
+function testConn() {
+  var start = Date.now();
+  log('Testing connection to ' + SERVER_URL + '...', 'inf');
+  var card = document.getElementById('statusCard');
+  var dot  = document.getElementById('statusDot');
+  var lbl  = document.getElementById('statusLabel');
+  var ping = document.getElementById('statusPing');
+
+  fetch(SERVER_URL + '/search?q=test', { signal: AbortSignal.timeout(5000) })
+    .then(function(r) {
+      var ms = Date.now() - start;
+      card.className = 'status-card online';
+      dot.className  = 'status-dot dot-green';
+      lbl.textContent = '✓ Server Online';
+      ping.textContent = ms + 'ms';
+      log('Connected! Ping: ' + ms + 'ms', 'ok');
+    })
+    .catch(function(e) {
+      card.className = 'status-card offline';
+      dot.className  = 'status-dot dot-red';
+      lbl.textContent = '✗ Server Offline';
+      ping.textContent = '';
+      log('Connection failed: ' + e.message, 'err');
+    });
+}
+
+function loadStats() {
+  // Playlist count
+  var pl = JSON.parse(localStorage.getItem('mf_playlist') || '[]');
+  document.getElementById('statPl').textContent = pl.length;
+
+  // History count
+  var hist = JSON.parse(localStorage.getItem('mf_history') || '[]');
+  document.getElementById('statHist').textContent = hist.length;
+
+  // Downloaded songs from IndexedDB
+  var req = indexedDB.open('musiqflow_dl', 1);
+  req.onsuccess = function(e) {
+    var db = e.target.result;
+    if (!db.objectStoreNames.contains('songs')) {
+      document.getElementById('statDl').textContent = '0';
+      document.getElementById('statStorage').textContent = '0 MB';
+      return;
+    }
+    var tx = db.transaction('songs', 'readonly');
+    var store = tx.objectStore('songs');
+    var all = store.getAll();
+    all.onsuccess = function() {
+      var songs = all.result || [];
+      document.getElementById('statDl').textContent = songs.length;
+      // Estimate storage
+      var bytes = songs.reduce(function(acc, s) {
+        return acc + (s.blob ? s.blob.size : 0);
+      }, 0);
+      var mb = (bytes / 1024 / 1024).toFixed(1);
+      document.getElementById('statStorage').textContent = mb + ' MB';
+    };
+  };
+  req.onerror = function() {
+    document.getElementById('statDl').textContent = '0';
+    document.getElementById('statStorage').textContent = '—';
+  };
+}
+
+function clearHistory() {
+  if (!confirm('Clear search history?')) return;
+  localStorage.removeItem('mf_history');
+  log('Search history cleared.', 'ok');
+  toast('✓ History cleared');
+  loadStats();
+}
+
+function clearPlaylist() {
+  if (!confirm('Clear playlist?')) return;
+  localStorage.removeItem('mf_playlist');
+  log('Playlist cleared.', 'ok');
+  toast('✓ Playlist cleared');
+  loadStats();
+}
+
+function clearDownloads() {
+  if (!confirm('Delete all downloaded songs?')) return;
+  var req = indexedDB.open('musiqflow_dl', 1);
+  req.onsuccess = function(e) {
+    var db = e.target.result;
+    if (!db.objectStoreNames.contains('songs')) return;
+    var tx = db.transaction('songs', 'readwrite');
+    tx.objectStore('songs').clear();
+    tx.oncomplete = function() {
+      log('All downloads cleared.', 'ok');
+      toast('✓ Downloads cleared');
+      loadStats();
+    };
+  };
+}
+
+function clearAll() {
+  if (!confirm('Reset ALL app data? This cannot be undone.')) return;
+  localStorage.clear();
+  var req = indexedDB.deleteDatabase('musiqflow_dl');
+  req.onsuccess = function() {
+    log('All app data reset.', 'ok');
+    toast('✓ App reset — restarting...');
+    setTimeout(function() { history.back(); }, 1500);
+  };
+}
+
+// Android back button
+document.addEventListener('deviceready', function() {
+  document.addEventListener('backbutton', function(e) { e.preventDefault(); history.back(); }, false);
+}, false);
+if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+  window.Capacitor.Plugins.App.addListener('backButton', function() { history.back(); });
+}
+</script>
+</body>
+</html>

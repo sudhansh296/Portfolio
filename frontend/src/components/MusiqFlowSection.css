@@ -19,7 +19,7 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
   position: relative;
@@ -28,7 +28,7 @@
 
 .section-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
 .section-header h2 {
@@ -47,20 +47,272 @@
   font-weight: 300;
 }
 
-.app-showcase {
+/* Apps Grid Layout */
+.apps-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.app-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1DB954, #1ed760);
+}
+
+.app-card.musiqflow-lite::before {
+  background: linear-gradient(90deg, #007bff, #0056b3);
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.app-header {
+  display: flex;
   align-items: center;
-  margin-bottom: 3rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.app-info {
-  space-y: 2rem;
-}
-
-.app-description h3 {
+.app-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  background: linear-gradient(45deg, #1DB954, #1ed760);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5rem;
+}
+
+.app-icon.lite {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+}
+
+.app-info h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.app-info p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+/* Phone Mockup */
+.app-preview {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.phone-mockup {
+  position: relative;
+}
+
+.phone-frame {
+  width: 200px;
+  height: 400px;
+  background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+  border-radius: 25px;
+  padding: 15px;
+  box-shadow: 
+    0 0 0 4px #333,
+    0 0 0 8px #222,
+    0 15px 30px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #555;
+  border-radius: 2px;
+}
+
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.app-screenshot {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+/* Music Player UI */
+.music-player-ui {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.search-bar {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.artist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.artist-card {
+  text-align: center;
+  font-size: 0.6rem;
+}
+
+.artist-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #1DB954, #1ed760);
+  margin: 0 auto 4px;
+}
+
+.now-playing {
+  margin-top: auto;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.album-art {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #007bff, #0056b3);
+}
+
+.track-info {
+  flex: 1;
+  font-size: 0.7rem;
+}
+
+.track-name {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.artist-name {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.6rem;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+/* Native Player UI */
+.native-player-ui {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.player-content {
+  flex: 1;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.large-album-art {
+  width: 120px;
+  height: 120px;
+  border-radius: 15px;
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.track-details {
+  text-align: center;
+}
+
+.track-details h4 {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.track-details p {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 40%;
+  height: 100%;
+  background: #007bff;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 1rem;
+}
+
+/* App Description */
+.app-description h4 {
+  font-size: 1.1rem;
   margin-bottom: 1rem;
   color: #fff;
 }
@@ -68,108 +320,24 @@
 .features-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 2rem 0;
 }
 
 .features-list li {
-  padding: 0.75rem 0;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 1rem;
-  line-height: 1.5;
 }
 
 .features-list li:last-child {
   border-bottom: none;
 }
 
-.app-stats {
-  display: flex;
-  gap: 2rem;
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-}
-
-.stat {
-  text-align: center;
-  flex: 1;
-}
-
-.stat-number {
-  display: block;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-.stat-label {
-  display: block;
+/* Tech Stack */
+.tech-stack h5 {
   font-size: 0.9rem;
-  opacity: 0.8;
-  margin-top: 0.25rem;
-}
-
-.download-section {
-  display: flex;
-  gap: 1rem;
-  margin: 2rem 0;
-  flex-wrap: wrap;
-}
-
-.download-btn, .share-btn {
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1rem;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 160px;
-  position: relative;
-  overflow: hidden;
-}
-
-.download-btn.primary {
-  background: linear-gradient(45deg, #1DB954, #1ed760);
-  color: white;
-  box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
-}
-
-.download-btn.primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(29, 185, 84, 0.6);
-}
-
-.share-btn.secondary {
-  background: linear-gradient(45deg, #007bff, #0056b3);
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
-}
-
-.share-btn.secondary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.6);
-}
-
-.btn-subtitle {
-  font-size: 0.8rem;
-  opacity: 0.9;
-  margin-top: 0.25rem;
-}
-
-.tech-stack {
-  margin-top: 2rem;
-}
-
-.tech-stack h4 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   color: #fff;
 }
 
@@ -181,83 +349,104 @@
 
 .tech-tag {
   background: rgba(255, 255, 255, 0.2);
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-weight: 500;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.app-preview {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.phone-mockup {
-  position: relative;
-}
-
-.phone-frame {
-  width: 280px;
-  height: 560px;
-  background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-  border-radius: 35px;
-  padding: 20px;
-  box-shadow: 
-    0 0 0 8px #333,
-    0 0 0 12px #222,
-    0 20px 40px rgba(0, 0, 0, 0.4);
-  position: relative;
-}
-
-.phone-frame::before {
-  content: '';
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 6px;
-  background: #555;
-  border-radius: 3px;
-}
-
-.phone-screen {
-  width: 100%;
-  height: 100%;
-  border-radius: 25px;
-  overflow: hidden;
-  background: #000;
-}
-
-.screenshot {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.3s ease;
-}
-
-.screenshot-gallery {
+/* App Actions */
+.app-actions {
   display: flex;
   gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
 }
 
-.thumbnail {
-  width: 80px;
-  height: 160px;
-  border-radius: 12px;
-  object-fit: cover;
+.download-btn, .share-btn, .github-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: center;
+  min-width: 120px;
 }
 
-.thumbnail:hover {
-  transform: scale(1.05);
-  border-color: rgba(255, 255, 255, 0.8);
+.download-btn.primary {
+  background: linear-gradient(45deg, #1DB954, #1ed760);
+  color: white;
+  box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
+}
+
+.download-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(29, 185, 84, 0.6);
+}
+
+.share-btn.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.share-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.github-btn {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.github-btn:hover {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Stats Section */
+.app-stats-section {
+  margin: 4rem 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
 }
 
 .app-footer {
@@ -289,44 +478,51 @@
     font-size: 2rem;
   }
 
-  .app-showcase {
+  .apps-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
-    text-align: center;
   }
 
-  .app-stats {
-    gap: 1rem;
+  .app-actions {
+    flex-direction: column;
   }
 
-  .download-section {
-    justify-content: center;
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .phone-frame {
-    width: 220px;
-    height: 440px;
-    padding: 15px;
-  }
-
-  .tech-tags {
-    justify-content: center;
+    width: 160px;
+    height: 320px;
   }
 }
 
 @media (max-width: 480px) {
-  .download-section {
-    flex-direction: column;
-    align-items: center;
+  .app-card {
+    padding: 1.5rem;
   }
 
-  .download-btn, .share-btn {
-    width: 100%;
-    max-width: 250px;
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
+}
 
-  .app-stats {
-    flex-direction: column;
-    gap: 1rem;
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-card {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.app-card:nth-child(2) {
+  animation-delay: 0.2s;
 }
