@@ -35,42 +35,7 @@ export default function Projects() {
       createdAt: new Date()
     };
 
-    // Sample Telegram Bot Projects
-    const musicBotProject = {
-      _id: 'music-telegram-bot',
-      title: 'Music Download Bot',
-      description: 'Telegram bot for downloading music from YouTube with high-quality audio. Features playlist support, search functionality, and inline queries.',
-      techStack: ['Python', 'Telegram Bot API', 'yt-dlp', 'FFmpeg', 'SQLite'],
-      image: null,
-      liveLink: 'https://t.me/your_music_bot',
-      githubLink: 'https://github.com/sudhansh296/music-telegram-bot',
-      category: 'Telegram Bots',
-      createdAt: new Date()
-    };
 
-    const utilityBotProject = {
-      _id: 'utility-telegram-bot',
-      title: 'Multi-Purpose Utility Bot',
-      description: 'Feature-rich Telegram bot with file conversion, QR code generation, weather updates, and admin tools. Supports multiple languages.',
-      techStack: ['Node.js', 'Telegraf', 'MongoDB', 'Redis', 'Docker'],
-      image: null,
-      liveLink: 'https://t.me/your_utility_bot',
-      githubLink: 'https://github.com/sudhansh296/utility-telegram-bot',
-      category: 'Telegram Bots',
-      createdAt: new Date()
-    };
-
-    const cryptoBotProject = {
-      _id: 'crypto-telegram-bot',
-      title: 'Crypto Price Tracker Bot',
-      description: 'Real-time cryptocurrency price tracking bot with alerts, portfolio management, and market analysis. Supports 1000+ cryptocurrencies.',
-      techStack: ['Python', 'python-telegram-bot', 'CoinGecko API', 'PostgreSQL', 'Celery'],
-      image: null,
-      liveLink: 'https://t.me/your_crypto_bot',
-      githubLink: 'https://github.com/sudhansh296/crypto-telegram-bot',
-      category: 'Telegram Bots',
-      createdAt: new Date()
-    };
 
     API.get('/api/projects')
       .then(res => {
@@ -82,25 +47,11 @@ export default function Projects() {
         );
         
         // Always add our projects at the beginning
-        const allProjects = [
-          musiqFlowProject, 
-          musiqFlowLiteProject, 
-          musicBotProject, 
-          utilityBotProject, 
-          cryptoBotProject, 
-          ...filteredProjects
-        ];
+        const allProjects = [musiqFlowProject, musiqFlowLiteProject, ...filteredProjects];
         setProjects(allProjects);
       })
       .catch(() => {
-        // If API fails, show our featured projects
-        setProjects([
-          musiqFlowProject, 
-          musiqFlowLiteProject, 
-          musicBotProject, 
-          utilityBotProject, 
-          cryptoBotProject
-        ]);
+        setProjects([musiqFlowProject, musiqFlowLiteProject]);
       })
       .finally(() => setLoading(false));
   }, []);
