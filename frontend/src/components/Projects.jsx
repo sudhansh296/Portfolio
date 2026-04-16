@@ -10,72 +10,46 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Always show MusiqFlow apps (don't depend on API)
+    const musiqFlowProject = {
+      _id: 'musiqflow-main',
+      title: 'MusiqFlow',
+      description: 'Advanced music streaming platform with real-time lyrics, high-quality audio, and smart recommendations. Cross-platform PWA with YouTube integration.',
+      techStack: ['Capacitor', 'JavaScript', 'Node.js', 'YouTube API', 'PWA'],
+      image: '/images/musiqflow-main.jpg',
+      liveLink: '/mobile-apps',
+      githubLink: 'https://github.com/sudhansh296/Portfolio',
+      category: 'Mobile',
+      createdAt: new Date()
+    };
+    
+    const musiqFlowLiteProject = {
+      _id: 'musiqflow-lite',
+      title: 'MusiqFlow Lite',
+      description: 'Native Android music player built with Kotlin and Jetpack Compose. Features Material Design 3, background service, and notification controls.',
+      techStack: ['Kotlin', 'Jetpack Compose', 'Media3', 'MVVM', 'Coroutines'],
+      image: '/images/musiqflow-lite.jpg',
+      liveLink: '/mobile-apps',
+      githubLink: 'https://github.com/sudhansh296/musiqflow-lite',
+      category: 'Mobile',
+      createdAt: new Date()
+    };
+
     API.get('/api/projects')
       .then(res => {
-        const projects = res.data;
+        const apiProjects = res.data || [];
         
-        // Add MusiqFlow apps if not already present
-        const hasMusiqFlow = projects.some(p => p.title === 'MusiqFlow');
-        const hasMusiqFlowLite = projects.some(p => p.title === 'MusiqFlow Lite');
+        // Filter out any existing MusiqFlow projects from API
+        const filteredProjects = apiProjects.filter(p => 
+          p.title !== 'MusiqFlow' && p.title !== 'MusiqFlow Lite'
+        );
         
-        if (!hasMusiqFlow) {
-          const musiqFlowProject = {
-            _id: 'musiqflow-main',
-            title: 'MusiqFlow',
-            description: 'Advanced music streaming platform with real-time lyrics, high-quality audio, and smart recommendations. Cross-platform PWA with YouTube integration.',
-            techStack: ['Capacitor', 'JavaScript', 'Node.js', 'YouTube API', 'PWA'],
-            image: '/images/musiqflow-main.jpg',
-            liveLink: '/mobile-apps', // Link to mobile apps page
-            githubLink: 'https://github.com/sudhansh296/Portfolio',
-            category: 'Mobile',
-            createdAt: new Date()
-          };
-          projects.unshift(musiqFlowProject);
-        }
-        
-        if (!hasMusiqFlowLite) {
-          const musiqFlowLiteProject = {
-            _id: 'musiqflow-lite',
-            title: 'MusiqFlow Lite',
-            description: 'Native Android music player built with Kotlin and Jetpack Compose. Features Material Design 3, background service, and notification controls.',
-            techStack: ['Kotlin', 'Jetpack Compose', 'Media3', 'MVVM', 'Coroutines'],
-            image: '/images/musiqflow-lite.jpg',
-            liveLink: '/mobile-apps', // Link to mobile apps page
-            githubLink: 'https://github.com/sudhansh296/musiqflow-lite',
-            category: 'Mobile',
-            createdAt: new Date()
-          };
-          projects.push(musiqFlowLiteProject);
-        }
-        
-        setProjects(projects);
+        // Always add our MusiqFlow apps at the beginning
+        const allProjects = [musiqFlowProject, musiqFlowLiteProject, ...filteredProjects];
+        setProjects(allProjects);
       })
       .catch(() => {
-        // If API fails, show MusiqFlow apps as fallback
-        const musiqFlowProject = {
-          _id: 'musiqflow-main',
-          title: 'MusiqFlow',
-          description: 'Advanced music streaming platform with real-time lyrics, high-quality audio, and smart recommendations. Cross-platform PWA with YouTube integration.',
-          techStack: ['Capacitor', 'JavaScript', 'Node.js', 'YouTube API', 'PWA'],
-          image: '/images/musiqflow-main.jpg',
-          liveLink: '/mobile-apps',
-          githubLink: 'https://github.com/sudhansh296/Portfolio',
-          category: 'Mobile',
-          createdAt: new Date()
-        };
-        
-        const musiqFlowLiteProject = {
-          _id: 'musiqflow-lite',
-          title: 'MusiqFlow Lite',
-          description: 'Native Android music player built with Kotlin and Jetpack Compose. Features Material Design 3, background service, and notification controls.',
-          techStack: ['Kotlin', 'Jetpack Compose', 'Media3', 'MVVM', 'Coroutines'],
-          image: '/images/musiqflow-lite.jpg',
-          liveLink: '/mobile-apps',
-          githubLink: 'https://github.com/sudhansh296/musiqflow-lite',
-          category: 'Mobile',
-          createdAt: new Date()
-        };
-        
+        // If API fails, show only MusiqFlow apps
         setProjects([musiqFlowProject, musiqFlowLiteProject]);
       })
       .finally(() => setLoading(false));
