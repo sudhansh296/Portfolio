@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api';
 
-const CATEGORIES = ['All', 'Web', 'Mobile', 'Desktop', 'AI/ML', 'Other'];
+const CATEGORIES = ['All', 'Web', 'Mobile', 'Telegram Bots', 'AI/ML', 'Other'];
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -35,6 +35,43 @@ export default function Projects() {
       createdAt: new Date()
     };
 
+    // Sample Telegram Bot Projects
+    const musicBotProject = {
+      _id: 'music-telegram-bot',
+      title: 'Music Download Bot',
+      description: 'Telegram bot for downloading music from YouTube with high-quality audio. Features playlist support, search functionality, and inline queries.',
+      techStack: ['Python', 'Telegram Bot API', 'yt-dlp', 'FFmpeg', 'SQLite'],
+      image: null,
+      liveLink: 'https://t.me/your_music_bot',
+      githubLink: 'https://github.com/sudhansh296/music-telegram-bot',
+      category: 'Telegram Bots',
+      createdAt: new Date()
+    };
+
+    const utilityBotProject = {
+      _id: 'utility-telegram-bot',
+      title: 'Multi-Purpose Utility Bot',
+      description: 'Feature-rich Telegram bot with file conversion, QR code generation, weather updates, and admin tools. Supports multiple languages.',
+      techStack: ['Node.js', 'Telegraf', 'MongoDB', 'Redis', 'Docker'],
+      image: null,
+      liveLink: 'https://t.me/your_utility_bot',
+      githubLink: 'https://github.com/sudhansh296/utility-telegram-bot',
+      category: 'Telegram Bots',
+      createdAt: new Date()
+    };
+
+    const cryptoBotProject = {
+      _id: 'crypto-telegram-bot',
+      title: 'Crypto Price Tracker Bot',
+      description: 'Real-time cryptocurrency price tracking bot with alerts, portfolio management, and market analysis. Supports 1000+ cryptocurrencies.',
+      techStack: ['Python', 'python-telegram-bot', 'CoinGecko API', 'PostgreSQL', 'Celery'],
+      image: null,
+      liveLink: 'https://t.me/your_crypto_bot',
+      githubLink: 'https://github.com/sudhansh296/crypto-telegram-bot',
+      category: 'Telegram Bots',
+      createdAt: new Date()
+    };
+
     API.get('/api/projects')
       .then(res => {
         const apiProjects = res.data || [];
@@ -44,13 +81,26 @@ export default function Projects() {
           p.title !== 'MusiqFlow' && p.title !== 'MusiqFlow Lite'
         );
         
-        // Always add our MusiqFlow apps at the beginning
-        const allProjects = [musiqFlowProject, musiqFlowLiteProject, ...filteredProjects];
+        // Always add our projects at the beginning
+        const allProjects = [
+          musiqFlowProject, 
+          musiqFlowLiteProject, 
+          musicBotProject, 
+          utilityBotProject, 
+          cryptoBotProject, 
+          ...filteredProjects
+        ];
         setProjects(allProjects);
       })
       .catch(() => {
-        // If API fails, show only MusiqFlow apps
-        setProjects([musiqFlowProject, musiqFlowLiteProject]);
+        // If API fails, show our featured projects
+        setProjects([
+          musiqFlowProject, 
+          musiqFlowLiteProject, 
+          musicBotProject, 
+          utilityBotProject, 
+          cryptoBotProject
+        ]);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -94,7 +144,11 @@ export default function Projects() {
                 <div style={styles.cardImgWrap}>
                   {p.image
                     ? <img src={p.image} alt={p.title} style={styles.img} />
-                    : <div style={styles.imgPlaceholder}><span style={{ fontSize: '2.5rem' }}>🖥️</span></div>
+                    : <div style={styles.imgPlaceholder}>
+                        <span style={{ fontSize: '2.5rem' }}>
+                          {p.category === 'Telegram Bots' ? '🤖' : '🖥️'}
+                        </span>
+                      </div>
                   }
                   <div style={styles.cardOverlay}>
                     <span style={styles.viewBtn}>
@@ -130,7 +184,11 @@ export default function Projects() {
             <button onClick={() => setSelected(null)} style={styles.close}>✕</button>
             {selected.image
               ? <img src={selected.image} alt={selected.title} style={styles.modalImg} />
-              : <div style={{ ...styles.imgPlaceholder, height: '200px', borderRadius: '12px', marginBottom: '20px' }}><span style={{ fontSize: '3rem' }}>🖥️</span></div>
+              : <div style={{ ...styles.imgPlaceholder, height: '200px', borderRadius: '12px', marginBottom: '20px' }}>
+                  <span style={{ fontSize: '3rem' }}>
+                    {selected.category === 'Telegram Bots' ? '🤖' : '🖥️'}
+                  </span>
+                </div>
             }
             <span style={styles.category}>{selected.category}</span>
             <h2 style={{ fontSize: '1.8rem', fontWeight: 800, margin: '10px 0 14px' }}>{selected.title}</h2>
