@@ -63,35 +63,16 @@ const MusiqFlowSection = () => {
               <div className="phone-mockup">
                 <div className="phone-frame">
                   <div className="phone-screen">
-                    <div className="app-screenshot">
-                      <div className="music-player-ui">
-                        <div className="search-bar">
-                          <span>🔍 Search songs, artists...</span>
-                        </div>
-                        <div className="artist-grid">
-                          <div className="artist-card">
-                            <div className="artist-avatar"></div>
-                            <span>Arijit Singh</span>
-                          </div>
-                          <div className="artist-card">
-                            <div className="artist-avatar"></div>
-                            <span>Ed Sheeran</span>
-                          </div>
-                        </div>
-                        <div className="now-playing">
-                          <div className="album-art"></div>
-                          <div className="track-info">
-                            <div className="track-name">Perfect</div>
-                            <div className="artist-name">Ed Sheeran</div>
-                          </div>
-                          <div className="controls">
-                            <span>⏮️</span>
-                            <span>▶️</span>
-                            <span>⏭️</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <img 
+                      src="/images/musiqflow-main-home.jpg" 
+                      alt="MusiqFlow Home Screen" 
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '15px'
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -152,33 +133,16 @@ const MusiqFlowSection = () => {
               <div className="phone-mockup">
                 <div className="phone-frame">
                   <div className="phone-screen">
-                    <div className="app-screenshot">
-                      <div className="native-player-ui">
-                        <div className="status-bar">
-                          <span>9:41</span>
-                          <div className="status-icons">
-                            <span>📶 📶 🔋</span>
-                          </div>
-                        </div>
-                        <div className="player-content">
-                          <div className="large-album-art"></div>
-                          <div className="track-details">
-                            <h4>Blinding Lights</h4>
-                            <p>The Weeknd</p>
-                          </div>
-                          <div className="progress-bar">
-                            <div className="progress-fill"></div>
-                          </div>
-                          <div className="player-controls">
-                            <span>🔀</span>
-                            <span>⏮️</span>
-                            <span>⏸️</span>
-                            <span>⏭️</span>
-                            <span>🔁</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <img 
+                      src="/images/musiqflow-lite-home.jpg" 
+                      alt="MusiqFlow Lite Home Screen" 
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '15px'
+                      }}
+                    />
                   </div>
                 </div>
               </div>
