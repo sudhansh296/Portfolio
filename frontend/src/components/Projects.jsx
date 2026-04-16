@@ -14,49 +14,77 @@ export default function Projects() {
       .then(res => {
         const projects = res.data;
         
-        // Add MusiqFlow app if not already present
-        const hasMusiqFlow = projects.some(p => p.title === 'MusiqFlow Lite');
+        // Add MusiqFlow apps if not already present
+        const hasMusiqFlow = projects.some(p => p.title === 'MusiqFlow');
+        const hasMusiqFlowLite = projects.some(p => p.title === 'MusiqFlow Lite');
+        
         if (!hasMusiqFlow) {
           const musiqFlowProject = {
+            _id: 'musiqflow-main',
+            title: 'MusiqFlow',
+            description: 'Advanced music streaming platform with real-time lyrics, high-quality audio, and smart recommendations. Cross-platform PWA with YouTube integration.',
+            techStack: ['Capacitor', 'JavaScript', 'Node.js', 'YouTube API', 'PWA'],
+            image: '/images/musiqflow-main.jpg',
+            liveLink: '/mobile-apps', // Link to mobile apps page
+            githubLink: 'https://github.com/sudhansh296/Portfolio',
+            category: 'Mobile',
+            createdAt: new Date()
+          };
+          projects.unshift(musiqFlowProject);
+        }
+        
+        if (!hasMusiqFlowLite) {
+          const musiqFlowLiteProject = {
             _id: 'musiqflow-lite',
             title: 'MusiqFlow Lite',
-            description: 'A lightweight music streaming app with YouTube integration. Features include smart search, background playback, and Material Design UI.',
-            techStack: ['Kotlin', 'Jetpack Compose', 'ExoPlayer', 'Material3', 'Coroutines'],
-            image: '/images/musiqflow-screen1.jpg',
-            liveLink: '#musiqflow-app', // Link to app section
+            description: 'Native Android music player built with Kotlin and Jetpack Compose. Features Material Design 3, background service, and notification controls.',
+            techStack: ['Kotlin', 'Jetpack Compose', 'Media3', 'MVVM', 'Coroutines'],
+            image: '/images/musiqflow-lite.jpg',
+            liveLink: '/mobile-apps', // Link to mobile apps page
             githubLink: 'https://github.com/sudhansh296/musiqflow-lite',
             category: 'Mobile',
             createdAt: new Date()
           };
-          projects.unshift(musiqFlowProject); // Add at beginning
+          projects.push(musiqFlowLiteProject);
         }
         
         setProjects(projects);
       })
       .catch(() => {
-        // If API fails, show MusiqFlow as fallback
+        // If API fails, show MusiqFlow apps as fallback
         const musiqFlowProject = {
+          _id: 'musiqflow-main',
+          title: 'MusiqFlow',
+          description: 'Advanced music streaming platform with real-time lyrics, high-quality audio, and smart recommendations. Cross-platform PWA with YouTube integration.',
+          techStack: ['Capacitor', 'JavaScript', 'Node.js', 'YouTube API', 'PWA'],
+          image: '/images/musiqflow-main.jpg',
+          liveLink: '/mobile-apps',
+          githubLink: 'https://github.com/sudhansh296/Portfolio',
+          category: 'Mobile',
+          createdAt: new Date()
+        };
+        
+        const musiqFlowLiteProject = {
           _id: 'musiqflow-lite',
           title: 'MusiqFlow Lite',
-          description: 'A lightweight music streaming app with YouTube integration. Features include smart search, background playback, and Material Design UI.',
-          techStack: ['Kotlin', 'Jetpack Compose', 'ExoPlayer', 'Material3', 'Coroutines'],
-          image: '/images/musiqflow-screen1.jpg',
-          liveLink: '#musiqflow-app',
+          description: 'Native Android music player built with Kotlin and Jetpack Compose. Features Material Design 3, background service, and notification controls.',
+          techStack: ['Kotlin', 'Jetpack Compose', 'Media3', 'MVVM', 'Coroutines'],
+          image: '/images/musiqflow-lite.jpg',
+          liveLink: '/mobile-apps',
           githubLink: 'https://github.com/sudhansh296/musiqflow-lite',
           category: 'Mobile',
           createdAt: new Date()
         };
-        setProjects([musiqFlowProject]);
+        
+        setProjects([musiqFlowProject, musiqFlowLiteProject]);
       })
       .finally(() => setLoading(false));
   }, []);
 
   const handleCardClick = (project) => {
-    if (project._id === 'musiqflow-lite') {
-      // Scroll to app section
-      document.getElementById('musiqflow-app')?.scrollIntoView({ 
-        behavior: 'smooth' 
-      });
+    if (project._id === 'musiqflow-main' || project._id === 'musiqflow-lite') {
+      // Navigate to mobile apps page
+      window.location.href = '/mobile-apps';
     } else {
       setSelected(project);
     }
@@ -96,7 +124,7 @@ export default function Projects() {
                   }
                   <div style={styles.cardOverlay}>
                     <span style={styles.viewBtn}>
-                      {p._id === 'musiqflow-lite' ? 'View App →' : 'View Details →'}
+                      {(p._id === 'musiqflow-main' || p._id === 'musiqflow-lite') ? 'View Apps →' : 'View Details →'}
                     </span>
                   </div>
                 </div>
