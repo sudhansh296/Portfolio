@@ -101,10 +101,12 @@ const MusiqFlowSection = () => {
 
             <div className="app-actions">
               <a 
-                href="/downloads/musiqflow-v1.0.0.apk" 
+                href="https://github.com/sudhansh296/Portfolio/releases/download/v1.0.0/musiqflow-v1.0.0.apk" 
                 className="download-btn primary"
                 download="MusiqFlow.apk"
                 onClick={() => handleDownload('musiqflow')}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 📱 Download APK
               </a>
