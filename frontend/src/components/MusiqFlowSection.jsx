@@ -68,10 +68,12 @@ const MusiqFlowSection = () => {
               <div className="app-preview" style={{ flex: '0 0 auto' }}>
                 <div className="phone-mockup">
                   <div className="phone-frame">
-                    <div className="phone-screen" style={{ background: '#0a0a0f', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '48px' }}>🚀</span>
-                      <span style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>YT Booster</span>
-                      <span style={{ color: '#888', fontSize: '10px' }}>Grow Your Channel</span>
+                    <div className="phone-screen" style={{ background: '#0a0a0f' }}>
+                      <img
+                        src="/images/yt-booster-home.jpg"
+                        alt="YT Booster Home Screen"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '15px' }}
+                      />
                     </div>
                   </div>
                 </div>
