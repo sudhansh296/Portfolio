@@ -35,30 +35,41 @@ export default function Projects() {
       createdAt: new Date()
     };
 
-
+    const ytBoosterProject = {
+      _id: 'yt-booster',
+      title: 'YT Booster',
+      description: 'YouTube Subscriber Exchange & Social Platform. Real-time chat, voice/video calls, group voice chat, AI companion, daily tasks, leaderboard & referral system.',
+      techStack: ['Kotlin', 'Jetpack Compose', 'Node.js', 'Socket.IO', 'WebRTC', 'MongoDB', 'Firebase FCM'],
+      image: null,
+      liveLink: 'https://api.picrypto.in/download/YT-Booster.apk',
+      githubLink: 'https://github.com/sudhansh296/yt-sub-exchange',
+      category: 'Mobile',
+      createdAt: new Date()
+    };
 
     API.get('/api/projects')
       .then(res => {
         const apiProjects = res.data || [];
         
-        // Filter out any existing MusiqFlow projects from API
+        // Filter out any existing MusiqFlow/YT Booster projects from API
         const filteredProjects = apiProjects.filter(p => 
-          p.title !== 'MusiqFlow' && p.title !== 'MusiqFlow Lite'
+          p.title !== 'MusiqFlow' && p.title !== 'MusiqFlow Lite' && p.title !== 'YT Booster'
         );
         
         // Always add our projects at the beginning
-        const allProjects = [musiqFlowProject, musiqFlowLiteProject, ...filteredProjects];
+        const allProjects = [ytBoosterProject, musiqFlowProject, musiqFlowLiteProject, ...filteredProjects];
         setProjects(allProjects);
       })
       .catch(() => {
-        setProjects([musiqFlowProject, musiqFlowLiteProject]);
+        setProjects([ytBoosterProject, musiqFlowProject, musiqFlowLiteProject]);
       })
       .finally(() => setLoading(false));
   }, []);
 
   const handleCardClick = (project) => {
-    if (project._id === 'musiqflow-main' || project._id === 'musiqflow-lite') {
-      // Navigate to mobile apps page
+    if (project._id === 'yt-booster') {
+      window.open('https://api.picrypto.in/download/YT-Booster.apk', '_blank');
+    } else if (project._id === 'musiqflow-main' || project._id === 'musiqflow-lite') {
       window.location.href = '/mobile-apps';
     } else {
       setSelected(project);
@@ -103,7 +114,7 @@ export default function Projects() {
                   }
                   <div style={styles.cardOverlay}>
                     <span style={styles.viewBtn}>
-                      {(p._id === 'musiqflow-main' || p._id === 'musiqflow-lite') ? 'View Apps →' : 'View Details →'}
+                      {p._id === 'yt-booster' ? 'Download APK →' : (p._id === 'musiqflow-main' || p._id === 'musiqflow-lite') ? 'View Apps →' : 'View Details →'}
                     </span>
                   </div>
                 </div>

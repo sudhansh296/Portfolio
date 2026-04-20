@@ -20,6 +20,11 @@ const MusiqFlowSection = () => {
         title: 'MusiqFlow Lite - Native Android Music Player',
         text: 'Experience MusiqFlow Lite, a native Android music player built with Kotlin and Jetpack Compose! 🎵',
         url: window.location.href
+      },
+      'yt-booster': {
+        title: 'YT Booster - YouTube Subscriber Exchange & Social Platform',
+        text: 'Grow your YouTube channel organically with YT Booster! Real subscriber exchange, chat, voice calls & more 🚀',
+        url: 'https://api.picrypto.in/download/YT-Booster.apk'
       }
     };
 
@@ -47,6 +52,83 @@ const MusiqFlowSection = () => {
         </div>
         
         <div className="apps-grid">
+          {/* YT Booster - Full Width at Top */}
+          <div className="app-card" style={{ gridColumn: '1 / -1', background: 'linear-gradient(135deg, rgba(255,0,0,0.05), rgba(204,0,0,0.02))', border: '1px solid rgba(255,0,0,0.2)' }}>
+            <div className="app-header">
+              <div className="app-icon" style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)' }}>
+                <span>🚀</span>
+              </div>
+              <div className="app-info">
+                <h3>YT Booster</h3>
+                <p>YouTube Subscriber Exchange &amp; Social Platform</p>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+              <div className="app-preview" style={{ flex: '0 0 auto' }}>
+                <div className="phone-mockup">
+                  <div className="phone-frame">
+                    <div className="phone-screen" style={{ background: '#0a0a0f', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '48px' }}>🚀</span>
+                      <span style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>YT Booster</span>
+                      <span style={{ color: '#888', fontSize: '10px' }}>Grow Your Channel</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ flex: 1, minWidth: '280px' }}>
+                <div className="app-description">
+                  <h4>✨ Features</h4>
+                  <ul className="features-list" style={{ columns: 2, columnGap: '20px' }}>
+                    <li>📈 Subscriber Exchange System</li>
+                    <li>💬 Real-time Chat &amp; Groups</li>
+                    <li>📞 Voice &amp; Video Calls</li>
+                    <li>🎙️ Group Voice Chat</li>
+                    <li>🤖 AI Companion (Gemini)</li>
+                    <li>🎮 Daily Tasks &amp; Rewards</li>
+                    <li>🏆 Leaderboard System</li>
+                    <li>🔔 Push Notifications</li>
+                    <li>👥 Referral Program</li>
+                    <li>🎵 Music Integration</li>
+                  </ul>
+                  <div className="tech-stack" style={{ marginTop: '16px' }}>
+                    <h5>🛠️ Tech Stack</h5>
+                    <div className="tech-tags">
+                      <span className="tech-tag">Kotlin</span>
+                      <span className="tech-tag">Jetpack Compose</span>
+                      <span className="tech-tag">Node.js</span>
+                      <span className="tech-tag">Socket.IO</span>
+                      <span className="tech-tag">WebRTC</span>
+                      <span className="tech-tag">MongoDB</span>
+                      <span className="tech-tag">Firebase FCM</span>
+                      <span className="tech-tag">React.js</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="app-actions" style={{ marginTop: '20px' }}>
+                  <a
+                    href="https://api.picrypto.in/download/YT-Booster.apk"
+                    className="download-btn primary"
+                    download="YT-Booster.apk"
+                    onClick={() => handleDownload('yt-booster')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)' }}
+                  >
+                    📱 Download APK
+                  </a>
+                  <button className="share-btn secondary" onClick={() => shareApp('yt-booster')}>
+                    🔗 Share
+                  </button>
+                  <a href="https://github.com/sudhansh296/yt-sub-exchange" className="github-btn" target="_blank" rel="noopener noreferrer">
+                    📂 View Code
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* MusiqFlow (Left Side) */}
           <div className="app-card musiqflow">
             <div className="app-header">
