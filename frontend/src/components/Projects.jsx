@@ -40,7 +40,7 @@ export default function Projects() {
       title: 'YT Booster',
       description: 'YouTube Subscriber Exchange & Social Platform. Real-time chat, voice/video calls, group voice chat, AI companion, daily tasks, leaderboard & referral system.',
       techStack: ['Kotlin', 'Jetpack Compose', 'Node.js', 'Socket.IO', 'WebRTC', 'MongoDB', 'Firebase FCM'],
-      image: '/images/yt-booster-home.jpg',
+      image: '/images/yt-booster-chat.jpg',
       liveLink: '/mobile-apps',
       githubLink: 'https://github.com/sudhansh296/yt-sub-exchange',
       category: 'Mobile',
