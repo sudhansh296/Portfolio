@@ -41,7 +41,7 @@ export default function Projects() {
       description: 'YouTube Subscriber Exchange & Social Platform. Real-time chat, voice/video calls, group voice chat, AI companion, daily tasks, leaderboard & referral system.',
       techStack: ['Kotlin', 'Jetpack Compose', 'Node.js', 'Socket.IO', 'WebRTC', 'MongoDB', 'Firebase FCM'],
       image: null,
-      liveLink: 'https://api.picrypto.in/download/YT-Booster.apk',
+      liveLink: '/mobile-apps',
       githubLink: 'https://github.com/sudhansh296/yt-sub-exchange',
       category: 'Mobile',
       createdAt: new Date()
@@ -67,10 +67,8 @@ export default function Projects() {
   }, []);
 
   const handleCardClick = (project) => {
-    if (project._id === 'yt-booster') {
-      window.open('https://api.picrypto.in/download/YT-Booster.apk', '_blank');
-    } else if (project._id === 'musiqflow-main' || project._id === 'musiqflow-lite') {
-      window.location.href = '/mobile-apps';
+    if (project._id === 'yt-booster' || project._id === 'musiqflow-main' || project._id === 'musiqflow-lite') {
+      window.open('/mobile-apps', '_blank');
     } else {
       setSelected(project);
     }
