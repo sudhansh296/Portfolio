@@ -173,7 +173,7 @@ const MusiqFlowSection = () => {
 
             <div className="app-actions">
               <a 
-                href="/downloads/musiqflow-lite-v1.0.0.apk" 
+                href="/downloads/musiqflow-lite-v1.0.1.apk" 
                 className="download-btn primary"
                 download="MusiqFlow-Lite.apk"
                 onClick={() => handleDownload('musiqflow-lite')}
