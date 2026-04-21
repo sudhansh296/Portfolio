@@ -33,6 +33,7 @@ app.use('/api/auth/login', loginLimiter);
 const allowedOrigins = [
   'http://localhost:3000',
   'https://portfolio-sand-delta-56anb24ojn.vercel.app',
+  'https://portfolio-sudhanshu295.vercel.app',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
