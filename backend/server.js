@@ -11,6 +11,9 @@ dotenv.config();
 
 const app = express();
 
+// Trust proxy - required for Render deployment
+app.set('trust proxy', 1);
+
 // Security headers
 app.use(helmet());
 
